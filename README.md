@@ -1,6 +1,6 @@
 ﻿# Course presentations
 
-An interactive Ukrainian lecture at `/`: **1-hybrid-mobile-apps**.
+The lecture index is at `/`; the first interactive lecture is at `/hybrid-mobile-apps`.
 20 views cover native, web, PWA, hybrid architecture, WebView, Capacitor,
 Cordova, frontend frameworks, and the complete delivery pipeline.
 
@@ -8,7 +8,7 @@ Cordova, frontend frameworks, and the complete delivery pipeline.
 
 - `npm start`: development server.
 - `npm run build`: production build.
-- `npm test -- --watch=false`: navigation, routing and demonstration tests.
+- `npm run check:seo`: verify metadata and social images in the production build.
 
 ## Presenting
 
@@ -47,3 +47,16 @@ It was generated with the built-in image generation tool. The exact prompt is
 recorded in `docs/hero-image-prompt.md`. Technical diagrams use HTML/CSS for crisp,
 selectable labels. Official Capacitor, Cordova and MDN documentation links are
 included in view 20.
+
+## Social sharing images
+
+Each of the seven routes has a unique generated PNG in `public/images/seo/`.
+`src/app/shared/seo/seo-images.ts` records image paths, dimensions and Ukrainian alt text;
+`app.routes.ts` assigns the image to the corresponding page. The shared SEO service
+updates Open Graph and Twitter large-image metadata on navigation and during prerendering.
+Absolute image and canonical URLs use `https://hybrid-mobile-applications.webart.work`.
+
+Run `npm run build` and `npm run check:seo` before publishing. Deploy the complete
+`dist/course/browser` directory, including route HTML and image assets, so crawlers
+receive page-specific metadata without JavaScript. Generation prompts are saved in
+`docs/seo-image-prompts.md`.
