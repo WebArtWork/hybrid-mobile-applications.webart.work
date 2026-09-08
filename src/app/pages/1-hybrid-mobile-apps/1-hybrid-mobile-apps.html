@@ -1,0 +1,714 @@
+﻿<ng-template #appUi>
+  <div class="demo-ui" aria-hidden="true">
+    <div class="demo-heading">
+      <span class="demo-logo">h.</span><span>Мій простір<br /><small>Усе під рукою</small></span>
+    </div>
+    <div class="demo-banner"><span>Вітаємо!</span><strong>Час для нових ідей.</strong><i></i></div>
+    <div class="demo-lines"><i></i><i></i><i></i></div>
+    <div class="demo-bottom"><span>⌂</span><span>▦</span><span>○</span></div>
+  </div>
+</ng-template>
+
+<app-presentation storageKey="presentation:view:1-hybrid-mobile-apps">
+  @for (slide of slides; track slide.id) {
+    <ng-template presentationView>
+      <article
+        class="lecture-view"
+        [class.hero-view]="slide.id === 1"
+        [class.matrix-view]="slide.id === 18"
+      >
+        <div class="eyebrow"><span class="chapter-dot"></span>{{ slide.chapter }}</div>
+        @if (slide.id !== 1) {
+          <h2>{{ slide.title }}</h2>
+          <p class="lead">{{ slide.lead }}</p>
+        }
+        @switch (slide.id) {
+          @case (1) {
+            <div class="hero-grid">
+              <div class="hero-copy">
+                <span class="topic-label">Гібридні мобільні додатки</span>
+                <h1>Гібридні<br />мобільні<br /><em>додатки.</em></h1>
+                <p class="hero-lead">{{ slide.lead }}</p>
+              </div>
+              <figure class="hero-art">
+                <img
+                  src="/images/hybrid-hero.png"
+                  alt="Ноутбук із web-застосунком передає HTML, CSS та JavaScript до смартфонів Android та iPhone"
+                  fetchpriority="high"
+                />
+                <figcaption>
+                  <span>HTML + CSS + JavaScript</span><b>↗</b><span>Mobile Application</span>
+                </figcaption>
+              </figure>
+            </div>
+            <div class="hero-baseline">
+              <span>Один web-світ. Нові мобільні можливості.</span
+              ><span>Native · Web · PWA · Hybrid · WebView · Capacitor · Cordova</span>
+            </div>
+          }
+          @case (2) {
+            <div class="approach-grid">
+              @for (app of approaches; track app.name) {
+                <div class="approach">
+                  <div class="phone small-phone">
+                    <div class="phone-speaker"></div>
+                    <ng-container [ngTemplateOutlet]="appUi" />
+                  </div>
+                  <h3>{{ app.name }}</h3>
+                  <p>{{ app.text }}</p>
+                  <div class="architecture-label">{{ app.path }}</div>
+                </div>
+              }
+            </div>
+            <div class="takeaway">
+              <span>Ключова думка</span
+              ><strong>Однаковий вигляд не означає однакову архітектуру.</strong>
+            </div>
+          }
+          @case (3) {
+            <div class="split native-layout">
+              <div>
+                <div class="platform-pair">
+                  <div class="platform">
+                    <span class="platform-mark">A</span>
+                    <h3>Android</h3>
+                    <p>Kotlin · Java</p>
+                    <div class="flow-down">↓</div>
+                    <strong>Android APIs</strong>
+                  </div>
+                  <div class="platform">
+                    <span class="platform-mark apple">i</span>
+                    <h3>iOS</h3>
+                    <p>Swift · Objective-C</p>
+                    <div class="flow-down">↓</div>
+                    <strong>iOS APIs</strong>
+                  </div>
+                </div>
+                <div class="hardware-strip">Камера · GPS · Bluetooth · Сховище</div>
+              </div>
+              <div class="stack-flow">
+                <div><span>01</span>Application Code</div>
+                <b>↓</b>
+                <div><span>02</span>Native APIs</div>
+                <b>↓</b>
+                <div><span>03</span>Operating System</div>
+                <b>↓</b>
+                <div class="accent-node"><span>04</span>Hardware</div>
+              </div>
+            </div>
+            <div class="tag-row">
+              <span>Сповіщення</span><span>Датчики</span><span>Біометрія</span
+              ><span>Доступ контролює ОС</span>
+            </div>
+          }
+          @case (4) {
+            <div class="split comparison-panels">
+              <div class="panel positive">
+                <span class="panel-sign">+</span>
+                <h3>Контроль над платформою</h3>
+                <p>Прямий доступ до native API та нових функцій SDK.</p>
+                <div class="feature-row">Продуктивність <span>↗</span></div>
+                <div class="feature-row">Інтеграція з ОС <span>↗</span></div>
+                <div class="feature-row">Точне налаштування UX <span>↗</span></div>
+              </div>
+              <div class="panel">
+                <span class="panel-sign">↔</span>
+                <h3>Дві платформи — дві реалізації</h3>
+                <div class="code-pair"><code>Android → Kotlin</code><code>iOS → Swift</code></div>
+                <p>Більше коду, різні спеціалісти, паралельне тестування та підтримка.</p>
+                <span class="subtle">Спільні бібліотеки можливі, але UI часто окремий.</span>
+              </div>
+            </div>
+            <section class="question-reveal">
+              <h3>Web + Android + iOS: скільки застосунків підтримувати?</h3>
+              <p>
+                Зазвичай три клієнти: web, Android та iOS. Backend може бути спільним, але
+                інтерфейси, релізи й тести потребують окремої уваги.
+              </p>
+            </section>
+          }
+          @case (5) {
+            <div class="web-flow">
+              <div class="cloud-node"><span>☁</span>Server / CDN</div>
+              <b>→</b>
+              <div class="internet-node">Internet</div>
+              <b>→</b>
+              <div class="browser-window">
+                <div class="browser-bar"><i></i><i></i><i></i><span>https://example.com</span></div>
+                <ng-container [ngTemplateOutlet]="appUi" />
+              </div>
+            </div>
+            <div class="browser-targets">
+              <span>Desktop browser</span><span>Android browser</span><span>Safari / iPhone</span>
+            </div>
+            <div class="split compact-panels">
+              <div>
+                <h3>Достатньо посилання</h3>
+                <p>
+                  Спільний код, багато пристроїв, оновлення через сервер — без встановлення з
+                  магазину.
+                </p>
+              </div>
+              <div>
+                <h3>Межі задає браузер</h3>
+                <p>
+                  Доступ до пристрою, інтерфейс браузера й поведінка залежать від web API та
+                  платформи.
+                </p>
+              </div>
+            </div>
+          }
+          @case (6) {
+            <div class="device-comparison">
+              <div>
+                <div class="phone">
+                  <div class="phone-speaker"></div>
+                  <div class="mobile-address">⌕ example.com</div>
+                  <ng-container [ngTemplateOutlet]="appUi" />
+                </div>
+                <h3>Responsive Web</h3>
+                <p>Телефон → браузер → сайт</p>
+              </div>
+              <span class="not-equal">≠</span>
+              <div>
+                <div class="phone">
+                  <div class="phone-speaker"></div>
+                  <ng-container [ngTemplateOutlet]="appUi" />
+                </div>
+                <h3>Installed Application</h3>
+                <p>Телефон → іконка → застосунок</p>
+              </div>
+            </div>
+            <div class="takeaway">
+              <span>Різні задачі</span
+              ><strong>Responsive — про розмір екрана. Встановлення — про спосіб запуску.</strong>
+            </div>
+          }
+          @case (7) {
+            <div class="pwa-composition">
+              <div class="pwa-core">
+                <span class="big-glyph">↗</span>
+                <h3>Web Application</h3>
+                <p>Працює на web-платформі</p>
+              </div>
+              <div class="pwa-parts">
+                <div>
+                  <span>01</span>
+                  <h3>Manifest</h3>
+                  <p>Назва, іконка, режим відображення та метадані встановлення.</p>
+                </div>
+                <div>
+                  <span>02</span>
+                  <h3>Service Worker + Cache</h3>
+                  <p>Керування запитами й offline-сценаріями за обраною стратегією.</p>
+                </div>
+                <div>
+                  <span>03</span>
+                  <h3>Browser APIs</h3>
+                  <p>Можливості пристрою та push у підтримуваних браузерах і ОС.</p>
+                </div>
+              </div>
+            </div>
+            <div class="tag-row">
+              <span>Іконка на екрані</span><span>Standalone</span><span>Кешування</span
+              ><span>Offline-сценарії</span>
+            </div>
+            <p class="fine-print">
+              Встановлення, push та доступ до API залежать від браузера й ОС. Offline потрібно
+              реалізувати.
+            </p>
+          }
+          @case (8) {
+            <div class="demo-toolbar">
+              <span class="demo-label">Навчальна симуляція</span
+              ><button
+                type="button"
+                class="toggle"
+                [class.is-offline]="!online()"
+                [attr.aria-pressed]="online()"
+                (click)="online.set(!online())"
+              >
+                <span class="status-dot"></span>{{ online() ? 'Online' : 'Offline' }}
+                <span>↔</span></button
+              ><button type="button" class="text-button" (click)="clearCache()">
+                Очистити кеш
+              </button>
+            </div>
+            <div class="offline-flow">
+              <div class="diagram-node" [class.muted-node]="!online()">
+                <span class="node-icon">☁</span>
+                <h3>Internet</h3>
+                <p>{{ online() ? 'Мережа доступна' : 'Немає з’єднання' }}</p>
+              </div>
+              <span class="connector">↔</span>
+              <div class="diagram-node orange-node">
+                <span class="node-icon">⇄</span>
+                <h3>Service Worker</h3>
+                <p>Обирає джерело відповіді</p>
+              </div>
+              <span class="connector">↔</span>
+              <div class="diagram-node">
+                <span class="node-icon">▤</span>
+                <h3>Cache</h3>
+                <p>{{ cached() ? 'Розклад збережено' : 'Кеш порожній' }}</p>
+              </div>
+            </div>
+            <div class="demo-result">
+              <div>
+                <span class="demo-label">Application / Розклад занять</span>
+                <p aria-live="polite">{{ offlineMessage() }}</p>
+              </div>
+              <button type="button" class="primary-button" (click)="loadOfflineDemo()">
+                Завантажити <span>↗</span>
+              </button>
+            </div>
+            <div class="tag-row">
+              <span>Що кешувати?</span><span>Коли оновлювати?</span><span>Які дані доступні?</span
+              ><span>Як синхронізувати?</span>
+            </div>
+          }
+          @case (9) {
+            <div class="split layer-layout">
+              <div class="layer-intro">
+                <span class="outline-label">Архітектура гібридного застосунку</span>
+                <h3 class="statement">Знайомий web.<br /><em>Мобільна оболонка.</em></h3>
+                <p>
+                  Встановлюємо на телефон, запускаємо через іконку, публікуємо в магазині й
+                  підключаємо native API.
+                </p>
+                <div class="layer-explanation" aria-live="polite">
+                  <span>{{ layers[selectedLayer()].name }}</span>
+                  <p>{{ layers[selectedLayer()].detail }}</p>
+                </div>
+              </div>
+              <div
+                class="layer-stack"
+                presentationVerticalSelection
+                aria-label="Шари hybrid-застосунку"
+              >
+                @for (layer of layers; track layer.name; let i = $index) {
+                  <button
+                    type="button"
+                    [class.selected]="selectedLayer() === i"
+                    [attr.aria-pressed]="selectedLayer() === i"
+                    (click)="selectedLayer.set(i)"
+                  >
+                    <span>{{ i + 1 }}</span
+                    >{{ layer.name }}<span>↗</span>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+          @case (10) {
+            <div class="split webview-layout">
+              <div>
+                <div class="formula-block">
+                  WebView <em>≈</em><br />browser engine<br /><span>без address bar і tabs</span>
+                </div>
+                <p>
+                  Рендерить HTML / CSS і виконує JavaScript. Користувач бачить інтерфейс застосунку,
+                  а не браузерні вкладки.
+                </p>
+                <div class="tag-row"><span>Android WebView</span><span>iOS WKWebView</span></div>
+              </div>
+              <div class="exploded-stack">
+                <div class="floating-ui"><ng-container [ngTemplateOutlet]="appUi" /></div>
+                <span class="vertical-connector">↓</span>
+                <div class="exploded-layer">
+                  <strong>WebView</strong><span>HTML · CSS · JavaScript</span>
+                </div>
+                <span class="vertical-connector">↓</span>
+                <div class="exploded-layer dark-layer">
+                  <strong>Native Application</strong><span>Android / iOS</span>
+                </div>
+              </div>
+            </div>
+          }
+          @case (11) {
+            <div class="split">
+              <div class="launch-path">
+                <span class="outline-label">Browser</span>
+                <div>Запуск Chrome / Safari</div>
+                <b>↓</b>
+                <div>Введення URL</div>
+                <b>↓</b>
+                <div>Завантаження з сервера</div>
+                <b>↓</b>
+                <div class="path-end">Web application</div>
+              </div>
+              <div class="launch-path hybrid-path">
+                <span class="outline-label">Hybrid</span>
+                <div>Натискання іконки</div>
+                <b>↓</b>
+                <div>OS запускає native container</div>
+                <b>↓</b>
+                <div>Контейнер створює WebView</div>
+                <b>↓</b>
+                <div class="path-end">Bundled web application</div>
+              </div>
+            </div>
+            <div class="asset-strip">
+              <span>У пакеті застосунку</span><code>index.html</code><code>styles.css</code
+              ><code>main.js</code><code>assets/</code>
+            </div>
+            <p class="fine-print">
+              Локальний UI може запускатися без мережі. Запити до backend усе ще потребують
+              з’єднання або окремої offline-логіки.
+            </p>
+          }
+          @case (12) {
+            <div class="split bridge-layout">
+              <div
+                class="bridge-diagram"
+                presentationVerticalSelection
+                aria-label="Кроки native bridge"
+              >
+                <div class="bridge-direction"><span>Запит ↓</span><span>↑ Результат</span></div>
+                @for (label of bridgeLabels; track label; let i = $index) {
+                  <button
+                    type="button"
+                    class="bridge-node"
+                    [class.bridge-active]="bridgeStep() === i"
+                    [class.bridge-done]="bridgeStep() > i"
+                    [attr.aria-pressed]="bridgeStep() === i"
+                    (click)="bridgeStep.set(i)"
+                  >
+                    <span>{{ i + 1 }}</span
+                    >{{ label }}<b>{{ bridgeStep() > i ? '✓' : '↓' }}</b>
+                  </button>
+                }
+              </div>
+              <div class="bridge-console">
+                <span class="demo-label">Симуляція / Крок {{ bridgeStep() + 1 }}</span
+                ><code>await Geolocation<br />.getCurrentPosition()</code>
+                <p aria-live="polite">
+                  {{
+                    bridgeStep() === 3 && !permission()
+                      ? 'Дозвіл відхилено. Плагін повертає помилку в JavaScript; координати не отримано.'
+                      : bridgeMessages[bridgeStep()]
+                  }}
+                </p>
+                <label class="permission-control"
+                  ><input
+                    type="checkbox"
+                    [checked]="permission()"
+                    (change)="permission.set(!permission()); bridgeStep.set(0)"
+                  />Дозвіл на геолокацію</label
+                ><button type="button" class="primary-button" (click)="advanceBridge()">
+                  {{
+                    bridgeStep() >= 5 || (bridgeStep() === 3 && !permission())
+                      ? 'Почати знову'
+                      : 'Наступний крок'
+                  }}
+                  <span>→</span>
+                </button>
+              </div>
+            </div>
+          }
+          @case (13) {
+            <div class="capability-layout">
+              <div
+                class="capability-grid"
+                presentationVerticalSelection
+                aria-label="Можливості пристрою"
+              >
+                @for (item of capabilities; track item.name; let i = $index) {
+                  <button
+                    type="button"
+                    [class.selected]="capability() === i"
+                    [attr.aria-pressed]="capability() === i"
+                    (click)="capability.set(i)"
+                  >
+                    <span>{{ item.icon }}</span
+                    >{{ item.name }}
+                  </button>
+                }
+              </div>
+              <div class="capability-center">
+                <div class="cap-ring">
+                  <div class="phone mini-phone">
+                    <span>Web<br />Application</span>
+                  </div>
+                  <strong>Capacitor</strong>
+                </div>
+                <p aria-live="polite">{{ capabilities[capability()].text }}</p>
+              </div>
+            </div>
+            <div class="takeaway">
+              <span>Розподіл ролей</span
+              ><strong>Frontend будує UI. Плагін відкриває шлях до native API.</strong>
+            </div>
+            <p class="fine-print">
+              Набір можливостей залежить від ОС, дозволів та офіційних, сторонніх або власних
+              плагінів.
+            </p>
+          }
+          @case (14) {
+            <div class="build-flow">
+              <div class="build-node">
+                <span>01 / Створюємо</span>
+                <h3>Web application</h3>
+                <p>Angular / React / Vue</p>
+              </div>
+              <b>→</b>
+              <div class="build-node">
+                <span>02 / Збираємо</span>
+                <h3>Web build</h3>
+                <code>HTML · CSS · JS · assets</code>
+              </div>
+              <b>→</b>
+              <div class="build-node orange-node">
+                <span>03 / Інтегруємо</span>
+                <h3>Capacitor</h3>
+                <code>npx cap sync</code>
+              </div>
+            </div>
+            <div class="native-branches">
+              <div>
+                <span>↙</span>
+                <h3>Android project</h3>
+                <p>Android Studio · Gradle</p>
+              </div>
+              <div>
+                <span>↘</span>
+                <h3>iOS project</h3>
+                <p>Xcode · macOS</p>
+              </div>
+            </div>
+            <div class="takeaway">
+              <span>Важливо</span
+              ><strong>Це справжні native-проєкти, які можна налаштовувати й розширювати.</strong>
+            </div>
+          }
+          @case (15) {
+            <div class="history-flow">
+              <div>
+                <span>Витоки</span>
+                <h3>PhoneGap</h3>
+                <p>Web-технології<br />для mobile</p>
+              </div>
+              <b>→</b>
+              <div>
+                <span>Відкрита екосистема</span>
+                <h3>Apache Cordova</h3>
+                <p>WebView<br />+ native plugins</p>
+              </div>
+              <b>→</b>
+              <div>
+                <span>Розвиток підходу</span>
+                <h3>Modern Hybrid</h3>
+                <p>Спільний web-шар<br />і native-інтеграція</p>
+              </div>
+            </div>
+            <div class="cordova-note">
+              <span class="big-glyph">↗</span>
+              <div>
+                <h3>Capacitor — окремий проєкт</h3>
+                <p>
+                  Продовжує ідею hybrid, але має власний runtime та workflow із native-проєктами. Це
+                  не нова версія Cordova.
+                </p>
+              </div>
+            </div>
+            <div class="tag-row">
+              <span>HTML + CSS + JavaScript</span><span>WebView</span><span>Native plugins</span>
+            </div>
+          }
+          @case (16) {
+            <div class="framework-picker" aria-label="Frontend-фреймворк">
+              @for (name of ['Angular', 'React', 'Vue']; track name) {
+                <button
+                  type="button"
+                  [class.selected]="framework() === name"
+                  [attr.aria-pressed]="framework() === name"
+                  (click)="framework.set(name)"
+                >
+                  <span>{{ name === 'Angular' ? 'A' : name === 'React' ? '⚛' : 'V' }}</span
+                  >{{ name }}
+                </button>
+              }
+            </div>
+            <div class="framework-pipeline">
+              <div>
+                <span class="demo-label">{{ framework() }} build</span
+                ><strong>HTML + CSS + JavaScript</strong>
+              </div>
+              <b>↓</b>
+              <div class="orange-node"><strong>Capacitor</strong></div>
+              <b>↓</b>
+              <div><strong>Android + iOS</strong></div>
+            </div>
+            <div class="responsibility-row">
+              <p>
+                <strong>Frontend</strong>UI · компоненти · routing · forms · state · бізнес-логіка ·
+                API
+              </p>
+              <p><strong>Capacitor</strong>Інтеграція з мобільною платформою</p>
+            </div>
+            <p class="fine-print">
+              Capacitor не вимагає Angular — можна використовувати й звичайний JavaScript.
+            </p>
+          }
+          @case (17) {
+            <div class="shared-code">
+              <span class="demo-label">Shared Application Code</span>
+              <h3>UI + бізнес-логіка + робота з API</h3>
+              <div class="shared-base">Shared Web Layer</div>
+              <div class="shared-platforms">
+                <div>
+                  <b>↙</b>
+                  <h3>Web</h3>
+                  <p>Browser APIs</p>
+                </div>
+                <div>
+                  <b>↓</b>
+                  <h3>Android</h3>
+                  <p>Permissions · config · plugins</p>
+                </div>
+                <div>
+                  <b>↘</b>
+                  <h3>iOS</h3>
+                  <p>Permissions · config · plugins</p>
+                </div>
+              </div>
+            </div>
+            <div class="split compact-panels">
+              <div>
+                <h3>Менше дублювання</h3>
+                <p>Спільні компоненти та функції для Web + Android + iOS.</p>
+              </div>
+              <div>
+                <h3>Не 100% однакового коду</h3>
+                <p>
+                  Платформний UI, native-плагіни, налаштування й тести залишаються. Продуктивність
+                  залежить також від WebView.
+                </p>
+              </div>
+            </div>
+          }
+          @case (18) {
+            <div class="matrix-scroll" role="region" aria-label="Порівняння підходів">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Критерій</th>
+                    <th scope="col">Native</th>
+                    <th scope="col">Web</th>
+                    <th scope="col">PWA</th>
+                    <th scope="col">Hybrid</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (row of comparison; track row[0]) {
+                    <tr>
+                      <th scope="row">{{ row[0] }}</th>
+                      @for (cell of row.slice(1); track $index) {
+                        <td>{{ cell }}</td>
+                      }
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+            <p class="fine-print">
+              ¹ За правилами магазину. ² З урахуванням дозволів і можливостей ОС. ³ Доступність
+              даних offline визначає реалізація.
+            </p>
+            <div class="choice-grid">
+              <div>
+                <strong>Native</strong>
+                <p>Контроль платформи й складна графіка.</p>
+              </div>
+              <div>
+                <strong>Web</strong>
+                <p>Максимальна доступність через URL.</p>
+              </div>
+              <div>
+                <strong>PWA</strong>
+                <p>Web-доставка й app-like можливості.</p>
+              </div>
+              <div>
+                <strong>Hybrid</strong>
+                <p>Web + mobile зі спільною web-основою.</p>
+              </div>
+            </div>
+          }
+          @case (19) {
+            <div
+              class="pipeline-diagram"
+              presentationVerticalSelection
+              aria-label="Кроки доставки застосунку"
+            >
+              @for (step of pipeline; track step.name; let i = $index) {
+                <button
+                  type="button"
+                  [class.selected]="pipelineStep() === i"
+                  [attr.aria-pressed]="pipelineStep() === i"
+                  (click)="pipelineStep.set(i)"
+                >
+                  <span>{{ '0' + (i + 1) }}</span
+                  ><strong>{{ step.name }}</strong
+                  ><b>{{ i < 6 ? '→' : '✓' }}</b>
+                </button>
+              }
+            </div>
+            <div class="web-branch">
+              <span>Від Web assets</span><b>↳</b><strong>Web Server / CDN</strong><b>→</b
+              ><strong>Browser</strong><span>Паралельний web-потік</span>
+            </div>
+            <div class="pipeline-detail" aria-live="polite">
+              <span class="demo-label">{{ pipeline[pipelineStep()].tag }}</span>
+              <h3>{{ pipeline[pipelineStep()].name }}</h3>
+              <p>{{ pipeline[pipelineStep()].detail }}</p>
+            </div>
+            <div class="asset-strip">
+              <span>Результат mobile build</span><code>Android · APK / AAB</code
+              ><code>iOS · Archive / IPA</code><span>→ Google Play / App Store → телефон</span>
+            </div>
+          }
+          @case (20) {
+            <div class="recap-grid">
+              @for (item of recap; track item[0]) {
+                <div>
+                  <strong>{{ item[0] }}</strong>
+                  <p>{{ item[1] }}</p>
+                </div>
+              }
+            </div>
+            <div class="final-formula">
+              <span>Hybrid</span><b>=</b>
+              <div>Web Application <i>+</i> Native Container <i>+</i> Native Bridge</div>
+            </div>
+            <div class="next-lecture">
+              <span>Далі / Лекція 02</span>
+              <h3>Як побудувати frontend, що добре працює у WebView, Android та iOS?</h3>
+              <p>Архітектура frontend мобільного застосунку.</p>
+            </div>
+            <section class="sources">
+              <h3>Документація для поглиблення</h3>
+              <a href="https://capacitorjs.com/docs" target="_blank" rel="noopener noreferrer"
+                >Capacitor: native runtime ↗</a
+              ><a
+                href="https://capacitorjs.com/docs/basics/workflow"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Capacitor: development workflow ↗</a
+              ><a
+                href="https://cordova.apache.org/docs/en/latest/guide/overview/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Apache Cordova: архітектура ↗</a
+              ><a
+                href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps"
+                target="_blank"
+                rel="noopener noreferrer"
+                >MDN: Progressive Web Apps ↗</a
+              >
+            </section>
+          }
+        }
+      </article>
+    </ng-template>
+  }
+</app-presentation>

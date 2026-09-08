@@ -1,0 +1,18 @@
+<main class="lecture-list">
+  <header>
+    <h1>Гібридні мобільні додатки</h1>
+  </header>
+  <ol>
+    @for (lecture of lectures; track lecture.path; let i = $index) {
+      <li>
+        <a [routerLink]="[lecture.path]">
+          <span class="index">{{ '0' + (i + 1) }}</span>
+          <span class="body">
+            <strong>{{ lecture.title }}</strong>
+            <p>{{ lecture.description }}</p>
+          </span>
+        </a>
+      </li>
+    }
+  </ol>
+</main>

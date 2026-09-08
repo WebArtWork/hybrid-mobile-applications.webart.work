@@ -1,0 +1,102 @@
+:host {
+  display: block;
+  height: 100dvh;
+  overflow: hidden;
+}
+main {
+  position: relative;
+  height: calc(100% - 90px - env(safe-area-inset-bottom));
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+section {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+  transform-origin: center;
+  animation: view-enter 260ms ease-out;
+}
+.presentation-controls {
+  position: fixed;
+  z-index: 10;
+  bottom: max(22px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  padding: 7px;
+  border: 1px solid #d8d7d1;
+  border-radius: 50px;
+  background: #fffef8f5;
+  box-shadow: 0 5px 24px #2628200a;
+}
+.presentation-controls > span {
+  min-width: 64px;
+  text-align: center;
+  font:
+    600 14px/1.2 'Courier New',
+    monospace;
+  font-variant-numeric: tabular-nums;
+}
+.divider {
+  margin: 0 6px;
+  color: #92938b;
+}
+button {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: #252820;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  transition: background 150ms;
+}
+button:hover:not(:disabled) {
+  background: #b43c19;
+}
+button:disabled {
+  background: #ecece6;
+  color: #a9aaa1;
+  cursor: default;
+}
+button:focus-visible {
+  outline: 3px solid #d84620;
+  outline-offset: 3px;
+}
+.progress-track {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #e2e2db;
+  z-index: 11;
+}
+.progress-track > div {
+  height: 100%;
+  background: #dd4b26;
+  transition: width 260ms ease;
+}
+@keyframes view-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  section {
+    animation: none;
+  }
+  .progress-track > div {
+    transition: none;
+  }
+}
