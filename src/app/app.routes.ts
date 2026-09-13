@@ -1,12 +1,6 @@
 import { Routes } from '@angular/router';
 import { SEO_IMAGES } from './shared/seo/seo-images';
 import { LectureList } from './pages/lecture-list/lecture-list';
-import { HybridMobileApps } from './pages/1-hybrid-mobile-apps/1-hybrid-mobile-apps';
-import { FrontendArchitecture } from './pages/2-frontend-architecture/2-frontend-architecture';
-import { DataApiOffline } from './pages/3-data-api-offline/3-data-api-offline';
-import { NativeApi } from './pages/4-native-api/4-native-api';
-import { HybridProjectSetup } from './pages/5-hybrid-project-setup/5-hybrid-project-setup';
-import { BuildDeployment } from './pages/6-build-deployment/6-build-deployment';
 
 export const routes: Routes = [
 	{
@@ -22,7 +16,10 @@ export const routes: Routes = [
 	},
 	{
 		path: 'hybrid-mobile-apps',
-		component: HybridMobileApps,
+		loadComponent: () =>
+			import('./pages/1-hybrid-mobile-apps/1-hybrid-mobile-apps').then(
+				(module) => module.HybridMobileApps,
+			),
 		title: 'Гібридні мобільні додатки: архітектура та екосистема — Лекція 1',
 		data: {
 			image: SEO_IMAGES.hybrid,
@@ -32,7 +29,10 @@ export const routes: Routes = [
 	},
 	{
 		path: 'frontend-architecture',
-		component: FrontendArchitecture,
+		loadComponent: () =>
+			import('./pages/2-frontend-architecture/2-frontend-architecture').then(
+				(module) => module.FrontendArchitecture,
+			),
 		title: 'Архітектура frontend мобільного застосунку — Лекція 2',
 		data: {
 			image: SEO_IMAGES.frontend,
@@ -42,7 +42,10 @@ export const routes: Routes = [
 	},
 	{
 		path: 'data-api-offline',
-		component: DataApiOffline,
+		loadComponent: () =>
+			import('./pages/3-data-api-offline/3-data-api-offline').then(
+				(module) => module.DataApiOffline,
+			),
 		title: 'Дані, API, авторизація та Offline — Лекція 3',
 		data: {
 			image: SEO_IMAGES.data,
@@ -52,7 +55,8 @@ export const routes: Routes = [
 	},
 	{
 		path: 'native-api',
-		component: NativeApi,
+		loadComponent: () =>
+			import('./pages/4-native-api/4-native-api').then((module) => module.NativeApi),
 		title: 'Мобільна платформа, Capacitor та Native API — Лекція 4',
 		data: {
 			image: SEO_IMAGES.native,
@@ -62,7 +66,10 @@ export const routes: Routes = [
 	},
 	{
 		path: 'hybrid-project-setup',
-		component: HybridProjectSetup,
+		loadComponent: () =>
+			import('./pages/5-hybrid-project-setup/5-hybrid-project-setup').then(
+				(module) => module.HybridProjectSetup,
+			),
 		title: 'Створення Hybrid-проєкту на Angular — Лекція 5',
 		data: {
 			image: SEO_IMAGES.setup,
@@ -72,7 +79,10 @@ export const routes: Routes = [
 	},
 	{
 		path: 'build-deployment',
-		component: BuildDeployment,
+		loadComponent: () =>
+			import('./pages/6-build-deployment/6-build-deployment').then(
+				(module) => module.BuildDeployment,
+			),
 		title: 'Build, Deployment та публікація застосунку — Лекція 6',
 		data: {
 			image: SEO_IMAGES.deployment,

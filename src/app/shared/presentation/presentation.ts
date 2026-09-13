@@ -24,7 +24,7 @@ import { PresentationView } from './presentation-view';
   },
   template: `
     <main #viewport aria-label="Лекція" aria-roledescription="презентація">
-      @for (view of activeView() ? [activeView()!] : []; track view) {
+      @for (view of activeView() ? [activeView()!] : []; track $index) {
         <section
           #slideContent
           role="group"

@@ -1,0 +1,628 @@
+<app-presentation storageKey="presentation:view:2-frontend-architecture">
+	@for (slide of slides; track slide.id) {
+		<ng-template presentationView>
+			<article class="lecture-view architecture-view" [class.hero-view]="slide.id === 1">
+				<div class="eyebrow"><span class="chapter-dot"></span>{{ slide.chapter }}</div>
+				@if (slide.id !== 1) {
+					<h2>{{ slide.title }}</h2>
+					<p class="lead">{{ slide.lead }}</p>
+				}
+
+				@switch (slide.id) {
+					@case (1) {
+						<div class="architecture-hero">
+							<div class="hero-copy">
+								<span class="topic-label">Лекція 02 · Frontend architecture</span>
+								<h1>Архітектура<br />мобільного<br /><em>frontend.</em></h1>
+								<p class="hero-lead">{{ slide.lead }}</p>
+							</div>
+							<div
+								class="hero-blueprint"
+								aria-label="Схема шарів мобільного frontend"
+							>
+								<div class="blueprint-phone">
+									<span>Application Shell</span><strong>Page</strong>
+									<div><i>UI</i><i>State</i></div>
+									<b>Service</b><small>API · Storage · Platform</small>
+								</div>
+								<div class="blueprint-lines"></div>
+							</div>
+						</div>
+						<div class="hero-baseline">
+							<span>Components · Pages · Routing · State</span
+							><span>Services · Forms · API · Lifecycle</span>
+						</div>
+					}
+					@case (2) {
+						<div class="system-grid">
+							@for (
+								item of [
+									['Що де лежить?', 'Екрани, кнопки та логіка мають свої папки.'],
+									[
+										'Хто за що відповідає?',
+										'Екран показує, а сервіс виконує роботу.',
+									],
+									[
+										'Як приходять дані?',
+										'Дія користувача змінює дані, а потім екран.',
+									],
+									[
+										'Що треба змінити?',
+										'Одна нова вимога — одна частина застосунку.',
+									],
+								];
+								track item[0];
+								let i = $index
+							) {
+								<div>
+									<span>0{{ i + 1 }}</span>
+									<h3>{{ item[0] }}</h3>
+									<p>{{ item[1] }}</p>
+								</div>
+							}
+						</div>
+						<div class="takeaway">
+							<span>Простими словами</span
+							><strong
+								>Хороша архітектура допомагає не загубитися у власному коді.</strong
+							>
+						</div>
+					}
+					@case (3) {
+						<div class="layer-map">
+							@for (layer of layers; track layer[0]; let i = $index) {
+								<div>
+									<span>0{{ i + 1 }}</span
+									><strong>{{ layer[0] }}</strong>
+									<p>{{ layer[1] }}</p>
+									<b>{{ i < layers.length - 1 ? '↓' : '↺' }}</b>
+								</div>
+							}
+						</div>
+						<div class="flow-caption">
+							<span>User event ↓</span
+							><strong>Command → operation → result → state → UI</strong
+							><span>↑ Rendered feedback</span>
+						</div>
+					}
+					@case (4) {
+						<div class="folder-layout">
+							<div class="folder-tree">
+								<strong>src/</strong>
+								@for (row of structure; track row[0]) {
+									<div>
+										<code>{{ row[0] }}</code
+										><span>{{ row[1] }}</span>
+									</div>
+								}
+							</div>
+							<div class="principles-panel">
+								<span class="demo-label">Структура відповідає на три питання</span>
+								<h3>Де екран?</h3>
+								<h3>Де його логіка?</h3>
+								<h3>Що є спільним?</h3>
+								<p>
+									Назви папок описують предметну область, а не історію створення
+									файлів.
+								</p>
+							</div>
+						</div>
+					}
+					@case (5) {
+						<div class="compare-columns">
+							<section>
+								<span class="demo-label">За технічним типом</span>
+								<h3>components/ · services/ · models/</h3>
+								<div class="scattered-files">
+									<i>catalog.component</i><i>catalog.service</i
+									><i>catalog.model</i>
+								</div>
+								<p>
+									Просто на старті. Одна feature швидко розповзається по всьому
+									проєкту.
+								</p>
+							</section>
+							<section class="recommended">
+								<span class="demo-label">Feature-oriented</span>
+								<h3>features/catalog/</h3>
+								<div class="packed-feature">
+									<i>pages/</i><i>components/</i><i>catalog.service</i
+									><i>catalog.state</i>
+								</div>
+								<p>Зміни, тести й видалення feature залишаються локальними.</p>
+							</section>
+						</div>
+						<div class="takeaway">
+							<span>Правило</span
+							><strong
+								>Організовуйте за змінами, які зазвичай відбуваються разом.</strong
+							>
+						</div>
+					}
+					@case (6) {
+						<div class="role-comparison">
+							<section>
+								<span>PAGE</span>
+								<h3>ProductPage</h3>
+								<ul>
+									<li>читає route parameter</li>
+									<li>викликає feature service</li>
+									<li>обирає стан екрана</li>
+									<li>компонує компоненти</li>
+								</ul>
+							</section>
+							<div class="composition-arrow">складається з →</div>
+							<section>
+								<span>COMPONENT</span>
+								<h3>ProductCard</h3>
+								<ul>
+									<li>отримує зрозумілі inputs</li>
+									<li>відображає одну концепцію</li>
+									<li>повідомляє про user events</li>
+									<li>не знає endpoint чи route</li>
+								</ul>
+							</section>
+						</div>
+						<div class="code-rule">
+							<code>Page = orchestration</code><b>+</b
+							><code>Component = presentation</code>
+						</div>
+					}
+					@case (7) {
+						@let item = architectureItems[architectureIndex()];
+						<div class="classification-demo" data-no-swipe>
+							<div class="classification-card">
+								<span
+									>Приклад {{ architectureIndex() + 1 }} /
+									{{ architectureItems.length }}</span
+								>
+								<h3>{{ item.name }}</h3>
+								<p>{{ item.hint }}</p>
+							</div>
+							<div
+								class="choice-row"
+								role="group"
+								aria-label="Оберіть архітектурний шар"
+							>
+								@for (layer of architectureLayers; track layer) {
+									<button
+										type="button"
+										[class.selected]="architectureChoice() === layer"
+										(click)="chooseArchitecture(layer)"
+									>
+										{{ layer }}
+									</button>
+								}
+							</div>
+							@if (architectureChoice(); as choice) {
+								<div
+									class="answer"
+									[class.correct]="choice === item.answer"
+									aria-live="polite"
+								>
+									<strong>{{
+										choice === item.answer ? 'Правильно' : 'Спробуйте інший шар'
+									}}</strong
+									><span>Відповідь: {{ item.answer }}</span>
+								</div>
+							}
+							<button
+								class="next-example"
+								type="button"
+								(click)="nextArchitectureItem()"
+							>
+								Наступний приклад →
+							</button>
+						</div>
+					}
+					@case (8) {
+						<div class="shell-layout">
+							<div class="shell-phone">
+								<div class="status-area">safe area</div>
+								<header>Header</header>
+								<main>
+									<strong>Route content</strong><span>Page змінюється тут</span>
+								</main>
+								<nav><b>Home</b><b>Search</b><b>Profile</b></nav>
+							</div>
+							<div class="shell-notes">
+								<div>
+									<span>Shell</span>
+									<p>
+										Root providers, startup, global overlays, primary
+										navigation.
+									</p>
+								</div>
+								<div>
+									<span>Layout</span>
+									<p>
+										Розташування header, content, sidebar чи tabs для групи
+										routes.
+									</p>
+								</div>
+								<div>
+									<span>Page</span>
+									<p>Контент і поведінка конкретного маршруту.</p>
+								</div>
+							</div>
+						</div>
+					}
+					@case (9) {
+						<div class="route-layout">
+							<div class="route-list">
+								<code>/</code><code>/catalog</code
+								><code class="active">/products/:id</code><code>/checkout</code
+								><code>/** → not-found</code>
+							</div>
+							<div class="route-transform">
+								<span>URL</span><b>→ match → guards → resolve →</b><span>Page</span>
+							</div>
+							<div class="route-example">
+								<code>/products/42</code><b>→</b>
+								<div><strong>ProductPage</strong><small>id = 42</small></div>
+							</div>
+						</div>
+						<div class="takeaway">
+							<span>Вигода</span
+							><strong
+								>Deep link відтворює потрібний екран без ручного проходження
+								flow.</strong
+							>
+						</div>
+					}
+					@case (10) {
+						<div class="navigation-patterns">
+							<section>
+								<span>STACK</span>
+								<div class="mini-stack">
+									<i>Home</i><i>Catalog</i><i>Product</i>
+								</div>
+								<h3>Back повертає контекст</h3>
+							</section>
+							<section>
+								<span>TABS</span>
+								<div class="mini-tabs"><i>Home</i><i>Search</i><i>Profile</i></div>
+								<h3>Перемикають верхні розділи</h3>
+							</section>
+							<section>
+								<span>DEEP LINK</span>
+								<div class="mini-link">app://product/42</div>
+								<h3>Відкриває точку всередині flow</h3>
+							</section>
+						</div>
+						<div class="warning-strip">
+							<strong>Browser Back ≠ Tab switch</strong
+							><span
+								>Не створюйте нову history entry для кожної візуальної зміни.</span
+							>
+						</div>
+					}
+					@case (11) {
+						<div class="navigation-demo" data-no-swipe>
+							<div class="stack-stage">
+								@for (screen of navigationStack(); track $index; let i = $index) {
+									<div class="stack-card" [style.--stack-index]="i">
+										<span>0{{ i + 1 }}</span
+										><strong>{{ screen }}</strong>
+									</div>
+								}
+							</div>
+							<div class="stack-readout">
+								<span>Navigation stack</span
+								><code>{{ navigationStack().join('  →  ') }}</code>
+							</div>
+							<div class="nav-actions">
+								@for (screen of destinations; track screen) {
+									<button type="button" (click)="openScreen(screen)">
+										Open {{ screen }}
+									</button>
+								}
+								<button
+									type="button"
+									(click)="goBack()"
+									[disabled]="navigationStack().length === 1"
+								>
+									← Back</button
+								><button type="button" (click)="resetNavigation()">Reset</button>
+							</div>
+						</div>
+					}
+					@case (12) {
+						<div class="service-grid">
+							@for (
+								service of [
+									['CatalogService', 'loadProducts · search'],
+									['AuthService', 'signIn · signOut'],
+									['StorageService', 'get · set · remove'],
+									['AnalyticsService', 'trackEvent'],
+									['PlatformService', 'keyboard · appState'],
+								];
+								track service[0]
+							) {
+								<div>
+									<span>injectable boundary</span>
+									<h3>{{ service[0] }}</h3>
+									<code>{{ service[1] }}</code>
+								</div>
+							}
+						</div>
+						<div class="takeaway">
+							<span>Тестованість</span
+							><strong
+								>Page тестуємо через контракт service, не через реальну мережу чи
+								пристрій.</strong
+							>
+						</div>
+					}
+					@case (13) {
+						<div class="dependency-flow">
+							<div>
+								<span>01</span><strong>User event</strong><small>tap “Add”</small>
+							</div>
+							<b>→</b>
+							<div>
+								<span>02</span><strong>Page</strong><small>dispatch intent</small>
+							</div>
+							<b>→</b>
+							<div>
+								<span>03</span><strong>Service</strong
+								><small>perform operation</small>
+							</div>
+							<b>→</b>
+							<div>
+								<span>04</span><strong>State</strong><small>store result</small>
+							</div>
+							<b>→</b>
+							<div>
+								<span>05</span><strong>UI</strong><small>render feedback</small>
+							</div>
+						</div>
+						<div class="boundary-code">
+							<code>UI → interface → implementation</code>
+							<p>
+								Компонент залежить від стабільного контракту. HTTP, storage або
+								native реалізацію можна замінити.
+							</p>
+						</div>
+					}
+					@case (14) {
+						<div class="scope-pyramid">
+							@for (scope of stateScopes; track scope[0]; let i = $index) {
+								<div [style.--scope]="i">
+									<strong>{{ scope[0] }}</strong>
+									<p>{{ scope[1] }}</p>
+								</div>
+							}
+						</div>
+						<div class="decision-question">
+							<span>Запитайте перед global store</span>
+							<h3>Хто читає цей стан і як довго він повинен жити?</h3>
+						</div>
+					}
+					@case (15) {
+						@let current = currentRequestState();
+						<div class="state-demo" data-no-swipe>
+							<div
+								class="state-machine"
+								role="group"
+								aria-label="Оберіть стан запиту"
+							>
+								@for (item of requestStates; track item.id) {
+									<button
+										type="button"
+										[class.selected]="state() === item.id"
+										(click)="state.set(item.id)"
+									>
+										{{ item.label }}
+									</button>
+								}
+							</div>
+							<div class="phone-state" [attr.data-state]="state()">
+								<span class="demo-label">Catalog</span>
+								@switch (state()) {
+									@case ('idle') {
+										<div class="state-symbol">→</div>
+										<h3>Відкрийте каталог</h3>
+									}
+									@case ('loading') {
+										<div class="state-symbol spinner">◌</div>
+										<h3>Завантаження…</h3>
+									}
+									@case ('success') {
+										<div class="product-lines"><i></i><i></i><i></i></div>
+										<h3>3 товари</h3>
+									}
+									@case ('empty') {
+										<div class="state-symbol">□</div>
+										<h3>Нічого не знайдено</h3>
+									}
+									@case ('error') {
+										<div class="state-symbol">!</div>
+										<h3>Не вдалося завантажити</h3>
+									}
+								}
+								<p>{{ current.message }}</p>
+							</div>
+						</div>
+					}
+					@case (16) {
+						<div class="form-flow">
+							@for (
+								step of [
+									['VALUE', 'email, password'],
+									['VALIDATION', 'required, format'],
+									['INTERACTION', 'touched, dirty'],
+									['SUBMISSION', 'idle, pending'],
+									['RESULT', 'success, server error'],
+								];
+								track step[0];
+								let i = $index
+							) {
+								<div>
+									<span>0{{ i + 1 }}</span
+									><strong>{{ step[0] }}</strong
+									><code>{{ step[1] }}</code>
+								</div>
+							}
+						</div>
+						<div class="mobile-form-rules">
+							<span>Правильний input type</span><span>Помилка біля поля</span
+							><span>Не ховати CTA клавіатурою</span><span>Не втрачати draft</span>
+						</div>
+					}
+					@case (17) {
+						<div class="api-boundary">
+							<section>
+								<span>Backend DTO</span
+								><code>{{ '{ product_id, price_cents }' }}</code>
+							</section>
+							<b>→</b>
+							<section class="mapper">
+								<span>API layer</span><strong>validate · map · normalize</strong>
+							</section>
+							<b>→</b>
+							<section>
+								<span>Application model</span><code>{{ '{ id, price }' }}</code>
+							</section>
+						</div>
+						<div class="api-responsibilities">
+							<div><strong>Endpoint</strong><span>одне місце знає URL</span></div>
+							<div>
+								<strong>Types</strong><span>контракт запиту й відповіді</span>
+							</div>
+							<div><strong>Errors</strong><span>спільна модель для UI</span></div>
+							<div>
+								<strong>Cancellation</strong
+								><span>застарілий запит не перемагає</span>
+							</div>
+						</div>
+						<div class="next-boundary">
+							<span>Лекція 03</span>
+							<p>
+								REST, authentication, storage, cache, offline-first та
+								synchronization.
+							</p>
+						</div>
+					}
+					@case (18) {
+						<div class="responsive-stage">
+							<div class="device narrow">
+								<span>360 px</span>
+								<header></header>
+								<main><i></i><i></i><i></i></main>
+								<footer></footer>
+							</div>
+							<b>→</b>
+							<div class="device wide">
+								<span>768+ px</span>
+								<header></header>
+								<main><i></i><i></i><i></i></main>
+								<aside></aside>
+							</div>
+							<div class="constraints-list">
+								<div><strong>44–48 px</strong><span>зручна touch target</span></div>
+								<div>
+									<strong>safe-area-inset-*</strong
+									><span>вирізи та home indicator</span>
+								</div>
+								<div>
+									<strong>100dvh</strong><span>динамічний mobile viewport</span>
+								</div>
+								<div>
+									<strong>keyboard</strong
+									><span>контент і focused input видимі</span>
+								</div>
+							</div>
+						</div>
+					}
+					@case (19) {
+						<div class="lifecycle-line">
+							@for (
+								phase of [
+									['CREATE', 'setup state'],
+									['ENTER', 'start visible work'],
+									['BACKGROUND', 'pause expensive work'],
+									['RESUME', 'refresh if stale'],
+									['DESTROY', 'cleanup resources'],
+								];
+								track phase[0];
+								let i = $index
+							) {
+								<div>
+									<span>0{{ i + 1 }}</span
+									><strong>{{ phase[0] }}</strong
+									><small>{{ phase[1] }}</small>
+								</div>
+								<b>{{ i < 4 ? '→' : '' }}</b>
+							}
+						</div>
+						<div class="cleanup-grid">
+							<code>subscriptions</code><code>event listeners</code><code>timers</code
+							><code>observers</code><code>in-flight requests</code
+							><code>native listeners</code>
+						</div>
+						<div class="warning-strip">
+							<strong>Hidden ≠ destroyed</strong
+							><span
+								>У mobile WebView застосунок може перейти у background і пізніше
+								продовжити роботу.</span
+							>
+						</div>
+					}
+					@case (20) {
+						<div class="framework-table" role="table">
+							@for (row of frameworks; track row[0]; let first = $first) {
+								<div class="framework-row" [class.header]="first" role="row">
+									@for (cell of row; track $index) {
+										<span role="cell">{{ cell }}</span>
+									}
+								</div>
+							}
+						</div>
+						<div class="architecture-checklist">
+							<span>✓ тонкі pages</span><span>✓ фокусовані components</span
+							><span>✓ явний state</span><span>✓ services за контрактами</span
+							><span>✓ API boundary</span><span>✓ lifecycle cleanup</span>
+						</div>
+						<div class="next-lecture">
+							<span>Далі / Лекція 03</span>
+							<h3>
+								Як дані потрапляють у застосунок і залишаються доступними offline?
+							</h3>
+							<p>Дані, API, авторизація та Offline.</p>
+						</div>
+						<section class="sources">
+							<h3>Документація для поглиблення</h3>
+							<a
+								href="https://angular.dev/guide/components"
+								target="_blank"
+								rel="noopener noreferrer"
+								>Angular components ↗</a
+							><a
+								href="https://angular.dev/guide/routing"
+								target="_blank"
+								rel="noopener noreferrer"
+								>Angular routing ↗</a
+							><a
+								href="https://react.dev/learn/thinking-in-react"
+								target="_blank"
+								rel="noopener noreferrer"
+								>React: Thinking in React ↗</a
+							><a
+								href="https://vuejs.org/guide/scaling-up/state-management.html"
+								target="_blank"
+								rel="noopener noreferrer"
+								>Vue state management ↗</a
+							><a
+								href="https://web.dev/learn/design"
+								target="_blank"
+								rel="noopener noreferrer"
+								>web.dev responsive design ↗</a
+							>
+						</section>
+					}
+				}
+			</article>
+		</ng-template>
+	}
+</app-presentation>

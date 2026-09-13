@@ -1,8 +1,11 @@
 ﻿# Course presentations
 
-The lecture index is at `/`; the first interactive lecture is at `/hybrid-mobile-apps`.
-20 views cover native, web, PWA, hybrid architecture, WebView, Capacitor,
-Cordova, frontend frameworks, and the complete delivery pipeline.
+The lecture index is at `/`; the first two interactive lectures are at
+`/hybrid-mobile-apps` and `/frontend-architecture`. Each contains 20 views.
+Lecture 1 covers native, web, PWA, hybrid architecture, WebView, Capacitor,
+Cordova, frontend frameworks, and the complete delivery pipeline. Lecture 2
+covers project structure, pages and components, routing, navigation, layouts,
+services, state, forms, the API boundary, mobile-first UI, and lifecycle.
 
 ## Development
 
@@ -24,13 +27,16 @@ interactive content, without page scrolling.
 
 Interactive views include offline/cache simulation (8), selectable architecture
 layers (9), GPS bridge and permission simulation (12), device capabilities (13),
-framework selection (16), and build pipeline exploration (19). These are teaching
-simulations; they do not request actual device permissions or install a service worker.
+framework selection (16), and build pipeline exploration (19) in Lecture 1.
+Lecture 2 adds architecture classification (7), navigation-stack exploration
+(11), and explicit UI request states (15). These are teaching simulations; they
+do not request actual device permissions, call external APIs, or install a service worker.
 
 ## Adding lectures or views
 
-The lecture is in `src/app/pages/1-hybrid-mobile-apps/`. Its metadata and demo state
-are in the TypeScript file; the template contains the 20 visual layouts.
+The completed lectures are in `src/app/pages/1-hybrid-mobile-apps/` and
+`src/app/pages/2-frontend-architecture/`. Their metadata and demo state are in
+the TypeScript files; each template contains 20 visual layouts.
 Add a metadata entry and its matching template case to add another view.
 
 Other lecture pages can import `Presentation` and `PresentationView` from
