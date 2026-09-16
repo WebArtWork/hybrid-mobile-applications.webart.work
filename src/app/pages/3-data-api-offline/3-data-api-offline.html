@@ -1,0 +1,206 @@
+﻿<app-presentation storageKey="presentation:view:3-data-api-offline">
+	@for (slide of slides; track slide.id) {
+		<ng-template presentationView>
+			<article class="lecture-view data-view" [class.hero-view]="slide.id === 1">
+				<div class="eyebrow"><span class="chapter-dot"></span>{{ slide.chapter }}</div>
+				@if (slide.id === 1) {
+					<span class="topic-label">HTTP Â· Session Â· Storage Â· Synchronization</span>
+					<h1>Ð”Ð°Ð½Ñ–, API,<br />Ð°Ð²Ñ‚Ð¾Ñ€Ð¸Ð·Ð°Ñ†Ñ–Ñ<br />Ñ‚Ð° <em>Offline.</em></h1>
+				} @else {
+					<h2>{{ slide.title }}</h2>
+				}
+				<p class="lead">{{ slide.lead }}</p>
+				@if (slide.details.length) {
+					<div class="concept-lines">
+						@for (detail of slide.details; track $index) {
+							<div class="concept-line">
+								<span class="line-number">0{{ $index + 1 }}</span>
+								<pre>{{ detail }}</pre>
+							</div>
+						}
+					</div>
+				}
+				@switch (slide.id) {
+					@case (6) {
+						<div class="demo" data-no-swipe>
+							<div class="choices" role="group" aria-label="HTTP method">
+								@for (item of methods; track item) {
+									<button
+										type="button"
+										[attr.aria-pressed]="method() === item"
+										(click)="method.set(item); requestChecked.set(false)"
+									>
+										{{ item }}
+									</button>
+								}
+							</div>
+							<div class="choices" role="group" aria-label="Endpoint">
+								@for (item of endpoints; track item) {
+									<button
+										type="button"
+										[attr.aria-pressed]="endpoint() === item"
+										(click)="endpoint.set(item); requestChecked.set(false)"
+									>
+										{{ item }}
+									</button>
+								}
+							</div>
+							<pre
+								>{{ method() }} {{ endpoint() }}
+Body: {{ '{"items":[{"productId":42,"quantity":1}]}' }}</pre>
+							<button type="button" (click)="requestChecked.set(true)">
+								ÐŸÐµÑ€ÐµÐ²Ñ–Ñ€Ð¸Ñ‚Ð¸ Ð·Ð°Ð¿Ð¸Ñ‚
+							</button>
+							@if (requestChecked()) {
+								<p class="result" aria-live="polite">
+									{{
+										method() === 'POST' && endpoint() === '/orders'
+											? 'ÐŸÑ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ð¾: POST /orders ÑÑ‚Ð²Ð¾Ñ€ÑŽÑ” Ð·Ð°Ð¼Ð¾Ð²Ð»ÐµÐ½Ð½Ñ. ÐžÑ‡Ñ–ÐºÑƒÑ”Ð¼Ð¾ 201 Created Ð·Ð° Ð½Ð°ÑˆÐ¸Ð¼ ÐºÐ¾Ð½Ñ‚Ñ€Ð°ÐºÑ‚Ð¾Ð¼.'
+											: 'Ð”Ð»Ñ ÑÑ‚Ð²Ð¾Ñ€ÐµÐ½Ð½Ñ Ð·Ð°Ð¼Ð¾Ð²Ð»ÐµÐ½Ð½Ñ Ð¿Ð¾Ñ‚Ñ€Ñ–Ð±ÐµÐ½ POST /orders. GET Ñ‡Ð¸Ñ‚Ð°Ñ” Ð´Ð°Ð½Ñ–; PATCH Ð·Ð¼Ñ–Ð½ÑŽÑ” Ð½Ð°ÑÐ²Ð½Ð¸Ð¹ Ñ€ÐµÑÑƒÑ€Ñ.'
+									}}
+								</p>
+							}
+						</div>
+					}
+					@case (11) {
+						<div class="demo" data-no-swipe>
+							<div class="choices">
+								<button type="button" (click)="refresh(true)">
+									Refresh ÑƒÑÐ¿Ñ–ÑˆÐ½Ð¸Ð¹
+								</button>
+								<button type="button" (click)="refresh(false)">
+									Refresh Ð²Ñ–Ð´Ñ…Ð¸Ð»ÐµÐ½Ð¾
+								</button>
+								<button
+									type="button"
+									(click)="sessionResult.set('Ð—Ð°Ð¿Ð¸Ñ‚ â†’ 401 Unauthorized')"
+								>
+									Ð¡ÐºÐ¸Ð½ÑƒÑ‚Ð¸
+								</button>
+							</div>
+							<p class="result" aria-live="polite">{{ sessionResult() }}</p>
+						</div>
+					}
+					@case (16) {
+						<p class="implementation-note">
+							ETag â€” opaque validator: Ð¿Ð¾Ð²ÐµÑ€Ñ‚Ð°Ð¹Ñ‚Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð½Ñ
+							Ñ‚Ð¾Ñ‡Ð½Ð¾, Ñ€Ð°Ð·Ð¾Ð¼ Ñ–Ð· Ð»Ð°Ð¿ÐºÐ°Ð¼Ð¸. Ð—Ð±ÐµÑ€Ñ–Ð³Ð°Ð¹Ñ‚Ðµ body +
+							ETag Ð´Ð»Ñ Ð²Ñ–Ð´Ð¿Ð¾Ð²Ñ–Ð´Ð½Ð¾Ð³Ð¾ URL Ñ– ÐºÐ¾Ñ€Ð¸ÑÑ‚ÑƒÐ²Ð°Ñ‡Ð°. Ð‘ÐµÐ·
+							Ð»Ð¾ÐºÐ°Ð»ÑŒÐ½Ð¾Ð³Ð¾ body Ñ€Ð¾Ð±Ñ–Ñ‚ÑŒ Ð·Ð²Ð¸Ñ‡Ð°Ð¹Ð½Ð¸Ð¹ GET.
+						</p>
+						<p class="implementation-note">
+							Fresh cache Ð·Ð° Cache-Control Ð¼Ð¾Ð¶Ðµ ÑƒÐ½Ð¸ÐºÐ½ÑƒÑ‚Ð¸ Ð½Ð°Ð²Ñ–Ñ‚ÑŒ
+							Ð·Ð°Ð¿Ð¸Ñ‚Ñƒ. ÐŸÑ€Ð¸ Ñ€ÑƒÑ‡Ð½Ñ–Ð¹ Ð²Ð°Ð»Ñ–Ð´Ð°Ñ†Ñ–Ñ— Ð¾Ð±Ñ€Ð¾Ð±Ñ–Ñ‚ÑŒ
+							304 Ð´Ð¾ Ñ‡Ð¸Ñ‚Ð°Ð½Ð½Ñ JSON. Browser HTTP cache Ð¼Ð¾Ð¶Ðµ
+							Ð¾Ð±Ñ€Ð¾Ð±Ð»ÑÑ‚Ð¸ 304 Ð°Ð²Ñ‚Ð¾Ð¼Ð°Ñ‚Ð¸Ñ‡Ð½Ð¾. Cross-origin API Ð¼Ð°Ñ”
+							Ð´Ð¾Ð·Ð²Ð¾Ð»Ð¸Ñ‚Ð¸ If-None-Match Ñ‚Ð° expose ETag Ñ‡ÐµÑ€ÐµÐ· CORS.
+						</p>
+					}
+					@case (17) {
+						<div class="demo etag-demo" data-no-swipe>
+							<div class="choices">
+								<button type="button" (click)="requestDocument()">
+									Ð—Ð°Ð¿Ð¸Ñ‚Ð°Ñ‚Ð¸ Ð´Ð¾ÐºÑƒÐ¼ÐµÐ½Ñ‚
+								</button>
+								<button type="button" (click)="changeDocument()">
+									Ð—Ð¼Ñ–Ð½Ð¸Ñ‚Ð¸ Ð´Ð¾ÐºÑƒÐ¼ÐµÐ½Ñ‚ Ð½Ð° ÑÐµÑ€Ð²ÐµÑ€Ñ–
+								</button>
+								<button type="button" (click)="resetDocument()">
+									Ð¡ÐºÐ¸Ð½ÑƒÑ‚Ð¸
+								</button>
+							</div>
+							<div class="version-line">
+								<span>Server: v{{ serverVersion() }}</span
+								><span
+									>Local:
+									{{
+										cachedVersion() === null
+											? 'Ð½ÐµÐ¼Ð°Ñ”'
+											: 'v' + cachedVersion()
+									}}</span
+								><span>ÐŸÐµÑ€ÐµÐ´Ð°Ð½Ð¾ body: {{ transferred() }} Ñ€Ð°Ð·Ñ–Ð²</span>
+							</div>
+							<div class="exchange" aria-live="polite">
+								<section>
+									<h3>Request</h3>
+									<pre>{{ etagRequest() }}</pre>
+								</section>
+								<section>
+									<h3>Response</h3>
+									<pre>{{ etagResponse() }}</pre>
+								</section>
+							</div>
+							<p>
+								Ð¡Ð¿Ñ€Ð¾Ð±ÑƒÐ¹Ñ‚Ðµ: GET â†’ Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€Ð½Ð¸Ð¹ GET â†’
+								Ð·Ð¼Ñ–Ð½Ð¸Ñ‚Ð¸ ÑÐµÑ€Ð²ÐµÑ€ â†’ GET. ÐžÑ‡Ñ–ÐºÑƒÐ²Ð°Ð½Ð¾: 200 â†’ 304
+								â†’ 200.
+							</p>
+						</div>
+					}
+					@case (19) {
+						<div class="demo" data-no-swipe>
+							<div class="choices">
+								<button
+									type="button"
+									[attr.aria-pressed]="online()"
+									(click)="online.set(!online())"
+								>
+									{{
+										online()
+											? 'Online â†’ Ð²Ð¸Ð¼ÐºÐ½ÑƒÑ‚Ð¸ Ð¼ÐµÑ€ÐµÐ¶Ñƒ'
+											: 'Offline â†’ ÑƒÐ²Ñ–Ð¼ÐºÐ½ÑƒÑ‚Ð¸ Ð¼ÐµÑ€ÐµÐ¶Ñƒ'
+									}}
+								</button>
+								<button type="button" (click)="saveDraft()">
+									Ð—Ð±ÐµÑ€ÐµÐ³Ñ‚Ð¸ Ñ‡ÐµÑ€Ð½ÐµÑ‚ÐºÑƒ
+								</button>
+								<button type="button" (click)="sync()">
+									Ð¡Ð¸Ð½Ñ…Ñ€Ð¾Ð½Ñ–Ð·ÑƒÐ²Ð°Ñ‚Ð¸
+								</button>
+							</div>
+							<div class="version-line">
+								<span>{{ online() ? 'Online' : 'Offline' }}</span
+								><span>Ð§ÐµÑ€Ð½ÐµÑ‚ÐºÐ¸: {{ draftCount() }}</span
+								><span>Pending: {{ pending() }}</span>
+							</div>
+							<p class="result" aria-live="polite">{{ offlineMessage() }}</p>
+						</div>
+					}
+					@case (22) {
+						<section class="reading">
+							<h3>Ð”Ð¾ÐºÑƒÐ¼ÐµÐ½Ñ‚Ð°Ñ†Ñ–Ñ Ð´Ð»Ñ Ð¿Ð¾Ð³Ð»Ð¸Ð±Ð»ÐµÐ½Ð½Ñ</h3>
+							<a
+								href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/ETag"
+								target="_blank"
+								rel="noopener noreferrer"
+								>MDN: ETag â†—</a
+							>
+							<a
+								href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/If-None-Match"
+								target="_blank"
+								rel="noopener noreferrer"
+								>MDN: If-None-Match â†—</a
+							>
+							<a
+								href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/If-Match"
+								target="_blank"
+								rel="noopener noreferrer"
+								>MDN: If-Match â†—</a
+							>
+							<a
+								href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API"
+								target="_blank"
+								rel="noopener noreferrer"
+								>MDN: IndexedDB â†—</a
+							>
+						</section>
+					}
+				}
+				<div class="data-takeaway">
+					<span>ÐšÐ»ÑŽÑ‡Ð¾Ð²Ð° Ð´ÑƒÐ¼ÐºÐ°</span>
+					<p>{{ slide.takeaway }}</p>
+				</div>
+			</article>
+		</ng-template>
+	}
+</app-presentation>
