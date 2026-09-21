@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { Presentation } from '../../shared/presentation/presentation';
 import { PresentationView } from '../../shared/presentation/presentation-view';
 
@@ -15,7 +15,7 @@ export class DataApiOffline {
 			'Дані, API, авторизація та Offline',
 			'Як отримувати дані, зберігати сесію та працювати без інтернету.',
 			['HTTP → API → Session → Local data → Sync'],
-			'Каталог товарів і документ товару — наскрізний приклад цієї лекції.',
+			'Приклад: каталог магазину, замовлення та редагування опису товару менеджером.',
 		],
 		[
 			'Шлях даних',
@@ -32,8 +32,8 @@ export class DataApiOffline {
 			'Запит і відповідь',
 			'Клієнт описує операцію, сервер повертає результат.',
 			[
-				'GET /api/products/42 HTTP/1.1\nAccept: application/json',
-				'HTTP/1.1 200 OK\nContent-Type: application/json\n\n{"id":42,"name":"Рюкзак","price":1200}',
+				'GET /products/42 HTTP/1.1\nHost: api.example.com\nAccept: application/json',
+				'HTTP/1.1 200 OK\nContent-Type: application/json\n\n{"product_id":42,"price_minor":120000,"currency":"UAH"}',
 			],
 			'HTTPS захищає передачу даних. Status code і body мають різні ролі.',
 		],
@@ -54,17 +54,17 @@ export class DataApiOffline {
 			'DTO та модель застосунку',
 			'Дані з мережі потребують перевірки перед використанням.',
 			[
-				'Backend DTO\n{"product_id":42,"price_cents":120000}',
-				'validate → map\nProduct { id: 42, price: 1200 }',
+				'Backend DTO\n{"product_id":42,"price_minor":120000,"currency":"UAH"}',
+				'validate → map\nProduct { id: 42, priceMinor: 120000, currency: "UAH" }\nДля показу: 1200 грн',
 			],
 			'TypeScript тип не перевіряє JSON під час виконання. Перевіряйте структуру на межі API.',
 		],
 		[
 			'Інтерактивна вправа',
-			'Зберіть запит',
-			'Потрібно створити замовлення з товаром 42.',
+			'Від кнопки «Купити» до API',
+			'Рюкзак, товар №42, коштує 1200 грн. Порівняйте перегляд товару та оформлення замовлення.',
 			[],
-			'Оберіть method та endpoint; перевірте контракт перед відправленням.',
+			'GET /products/42 читає товар. POST /orders створює замовлення, а JSON передає товар і кількість. Ціну перевіряє сервер.',
 		],
 		[
 			'API layer',
@@ -86,7 +86,7 @@ export class DataApiOffline {
 				'400 / 403 → виправити запит або права',
 				'429 / 503 → обмежені retries з backoff; врахувати Retry-After',
 			],
-			'POST замовлення повторюйте лише з підтриманим сервером idempotency key.',
+			'Для повтору POST зберігайте той самий idempotency key і payload. Без підтримки сервера спочатку перевірте результат операції.',
 		],
 		[
 			'Доступ',
@@ -109,12 +109,12 @@ export class DataApiOffline {
 				'Expiry → один refresh → один повтор запиту',
 				'Sign out → завершити сесію та очистити приватні локальні дані',
 			],
-			'Не запускайте паралельний refresh для кожного 401. Невдалий refresh повертає до входу.',
+			'Один refresh для паралельних запитів. Відхилений refresh вимагає входу. Timeout або 5xx призупиняє запити, але не стирає сесію.',
 		],
 		[
 			'Інтерактивна вправа',
-			'Access token завершився',
-			'Запит отримав 401. Перевірте два варіанти refresh.',
+			'Строк дії access token минув',
+			'GET отримав 401 через прострочений token. Порівняйте успіх, відмову та мережеву помилку refresh.',
 			[],
 			'Симуляція сесії; справжні облікові дані не використовуються.',
 		],
@@ -127,18 +127,7 @@ export class DataApiOffline {
 				'Каталог + чернетки → локальна база',
 				'Секрети сесії → відповідне захищене сховище',
 			],
-			'Відокремлюйте дані користувачів. Вихід із сесії має очищати їхні приватні кеші.',
-		],
-		[
-			'Secure storage',
-			'Секрети сесії',
-			'Native adapter може використовувати Keychain / Keystore.',
-			[
-				'Web layer → secure storage adapter → native platform',
-				'Не записувати tokens у logs або звичайний localStorage',
-				'Web: HttpOnly cookies можуть бути частиною backend-контракту',
-			],
-			'Захищене зберігання не усуває ризик XSS у працюючому застосунку. Обирайте й перевіряйте plugin окремо.',
+			'Розділяйте дані й outbox за користувачем. Перед виходом попередьте про невідправлені зміни та узгодьте їх видалення.',
 		],
 		[
 			'Локальна база',
@@ -156,11 +145,11 @@ export class DataApiOffline {
 			'Звідки читати дані',
 			'Стратегія залежить від допустимої давності даних.',
 			[
-				'Network-first → мережа; cache як fallback',
-				'Cache-first → локальна копія; мережа за відсутності',
+				'Network-first → API з timeout, кеш при недоступності мережі',
+				'Cache-first → придатна локальна копія, інакше API',
 				'Stale-while-revalidate → показати cache та оновити у фоні',
 			],
-			'Кеш ресурсів інтерфейсу й база документів — окремі рівні. Позначайте давність даних.',
+			'Визначте строк придатності й інвалідацію кешу. Не приховуйте 401 / 403 старою приватною копією. Позначайте давність даних.',
 		],
 		[
 			'HTTP cache validation',
@@ -171,7 +160,7 @@ export class DataApiOffline {
 				'GET /documents/42\nIf-None-Match: "doc-42-v1"',
 				'304 Not Modified → без body → використати локальну копію',
 			],
-			'Якщо документ змінився: 200 + новий body + новий ETag. Запит перевірки залишається, передача документа — ні.',
+			'Без змін: 304 без body. Після змін: 200 з новим body та ETag. Умовний GET економить передачу лише незміненого документа.',
 		],
 		[
 			'Інтерактивна вправа',
@@ -187,16 +176,16 @@ export class DataApiOffline {
 			[
 				'Read → local database → UI',
 				'Edit → transaction: draft + outbox operation',
-				'Sync → backend acknowledgment → mark synced',
+				'Sync → підтвердження конкретної операції → оновити базу й outbox',
 			],
-			'Черга має переживати перезапуск. Не позначайте зміну доставленою до підтвердження сервера.',
+			'Черга переживає перезапуск. Зберігайте ID операції, payload і базову версію. Відповідь на стару зміну не має стирати новішу локальну правку.',
 		],
 		[
 			'Інтерактивна вправа',
 			'Мережа зникла',
-			'Каталог збережений. Чернетку можна змінити без мережі.',
+			'Каталог уже збережений. Створіть чернетки offline, увімкніть мережу та спробуйте sync із недоступним API.',
 			[],
-			'Симуляція в пам’яті: у production база та outbox мають бути постійними.',
+			'Симуляція в пам’яті з ручним sync. У production потрібне постійне сховище, а для запуску offline ще й доступний код інтерфейсу.',
 		],
 		[
 			'Network + lifecycle',
@@ -214,9 +203,9 @@ export class DataApiOffline {
 			'Повторна доставка та конфлікти',
 			'Зміни на двох пристроях можуть стосуватися однієї версії документа.',
 			[
-				'pending → syncing → synced / error',
+				'pending → syncing → synced / retry / conflict',
 				'PATCH /documents/42\nIf-Match: "doc-42-v1"',
-				'Версія змінилась → 412 Precondition Failed → порівняти та узгодити',
+				'412 → отримати серверну версію → узгодити локальні зміни → новий If-Match',
 			],
 			'If-Match потребує strong ETag. Idempotency захищає від дублікатів; контроль версії — від перезапису чужих змін.',
 		],
@@ -226,7 +215,7 @@ export class DataApiOffline {
 			'Усі механізми працюють як одна система.',
 			[
 				'Sign in → GET → validate → local database',
-				'Repeat GET + ETag → 304 → reuse document',
+				'Repeat GET + ETag → 304 без змін / 200 з оновленими даними',
 				'Offline edit → outbox → reconnect → conditional update',
 			],
 			'Далі: Capacitor, Native bridge, plugins і можливості Android / iOS.',
@@ -239,18 +228,55 @@ export class DataApiOffline {
 		details: details as string[],
 		takeaway: takeaway as string,
 	}));
-	readonly method = signal('GET');
-	readonly endpoint = signal('/products/42');
-	readonly requestChecked = signal(false);
-	readonly methods = ['GET', 'POST', 'PATCH', 'DELETE'];
-	readonly endpoints = ['/products/42', '/orders'];
-	readonly sessionResult = signal('Запит → 401 Unauthorized');
-	refresh(success: boolean): void {
-		this.sessionResult.set(
-			success
-				? '401 → refresh успішний → новий access token → повтор → 200 OK'
-				: '401 → refresh відхилено → очистити сесію → екран входу',
+	readonly requestAction = signal<'view' | 'order'>('order');
+	readonly quantity = signal(1);
+	readonly sampleResponse = signal('');
+	readonly requestPreview = computed(() =>
+		this.requestAction() === 'view'
+			? 'GET /products/42\nAccept: application/json\n\n(без body)'
+			: 'POST /orders\nContent-Type: application/json\n\n' +
+				JSON.stringify({ items: [{ productId: 42, quantity: this.quantity() }] }, null, 2),
+	);
+	selectRequestAction(action: 'view' | 'order'): void {
+		this.requestAction.set(action);
+		this.sampleResponse.set('');
+	}
+	changeQuantity(delta: number): void {
+		this.quantity.update((value) => Math.max(1, Math.min(5, value + delta)));
+		this.sampleResponse.set('');
+	}
+	sendSampleRequest(): void {
+		this.sampleResponse.set(
+			this.requestAction() === 'view'
+				? '200 OK\n' +
+						JSON.stringify(
+							{ product_id: 42, price_minor: 120000, currency: 'UAH' },
+							null,
+							2,
+						)
+				: '201 Created\nLocation: /orders/101\n' +
+						JSON.stringify(
+							{
+								id: 101,
+								quantity: this.quantity(),
+								total_minor: 120000 * this.quantity(),
+								currency: 'UAH',
+							},
+							null,
+							2,
+						),
 		);
+	}
+	readonly sessionResult = signal('Запит → 401 Unauthorized');
+	refresh(outcome: 'success' | 'rejected' | 'unavailable'): void {
+		const results = {
+			success: '401 → refresh успішний → новий access token → повтор GET → 200 OK',
+			rejected:
+				'401 → refresh відхилено (invalid_grant) → зупинити sync → потрібен вхід. Чернетки не передавати іншому користувачу.',
+			unavailable:
+				'401 → refresh: timeout / 503 → призупинити захищені запити. Зберегти локальні зміни, повторити за політикою авторизації.',
+		};
+		this.sessionResult.set(results[outcome]);
 	}
 	readonly serverVersion = signal(1);
 	changeDocument(): void {
@@ -290,20 +316,27 @@ export class DataApiOffline {
 		this.cachedVersion.set(null);
 		this.transferred.set(0);
 		this.etagRequest.set('GET /documents/42');
-		this.etagResponse.set('Кеш очищено. Наступний запит отримає 200 з body.');
+		this.etagResponse.set(
+			'Симуляцію скинуто: сервер v1, кеш порожній. Наступний GET отримає 200 з body.',
+		);
 	}
-	readonly online = signal(true);
+	readonly online = signal(false);
+	readonly backendAvailable = signal(true);
 	readonly pending = signal(0);
 	readonly draftCount = signal(0);
 	readonly offlineMessage = signal('Локальний каталог: Рюкзак · 1200 грн');
 	saveDraft(): void {
 		this.draftCount.update((count) => count + 1);
 		this.pending.update((count) => count + 1);
-		this.offlineMessage.set('Чернетка збережена локально. Очікує синхронізації.');
+		this.offlineMessage.set('Нову чернетку збережено локально та додано до черги.');
 	}
 	sync(): void {
 		if (!this.online()) {
 			this.offlineMessage.set('Мережі немає. Черга збережена; спробуйте після reconnect.');
+		} else if (!this.backendAvailable()) {
+			this.offlineMessage.set(
+				'Мережа є, але API повернув 503. Підтвердження немає, усі зміни залишаються в черзі.',
+			);
 		} else if (this.pending() === 0) {
 			this.offlineMessage.set('Усі зміни вже синхронізовано.');
 		} else {

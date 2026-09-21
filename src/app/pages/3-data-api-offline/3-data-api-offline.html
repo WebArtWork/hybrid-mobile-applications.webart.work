@@ -22,54 +22,102 @@
 				}
 				@switch (slide.id) {
 					@case (6) {
-						<div class="demo" data-no-swipe>
-							<div class="choices" role="group" aria-label="HTTP method">
-								@for (item of methods; track item) {
+						<div class="demo request-demo" data-no-swipe>
+							<div class="request-controls">
+								<h3>1. Оберіть дію покупця</h3>
+								<div class="choices" role="group" aria-label="Дія покупця">
 									<button
 										type="button"
-										[attr.aria-pressed]="method() === item"
-										(click)="method.set(item); requestChecked.set(false)"
+										[attr.aria-pressed]="requestAction() === 'view'"
+										(click)="selectRequestAction('view')"
 									>
-										{{ item }}
+										Переглянути товар
 									</button>
-								}
-							</div>
-							<div class="choices" role="group" aria-label="Endpoint">
-								@for (item of endpoints; track item) {
 									<button
 										type="button"
-										[attr.aria-pressed]="endpoint() === item"
-										(click)="endpoint.set(item); requestChecked.set(false)"
+										[attr.aria-pressed]="requestAction() === 'order'"
+										(click)="selectRequestAction('order')"
 									>
-										{{ item }}
+										Купити рюкзак
 									</button>
+								</div>
+								@if (requestAction() === 'order') {
+									<div
+										class="choices quantity-controls"
+										role="group"
+										aria-label="Кількість рюкзаків"
+									>
+										<button
+											type="button"
+											aria-label="Зменшити кількість"
+											[disabled]="quantity() === 1"
+											(click)="changeQuantity(-1)"
+										>
+											−
+										</button>
+										<span aria-live="polite">Кількість: {{ quantity() }}</span>
+										<button
+											type="button"
+											aria-label="Збільшити кількість"
+											[disabled]="quantity() === 5"
+											(click)="changeQuantity(1)"
+										>
+											+
+										</button>
+									</div>
 								}
-							</div>
-							<pre
-								>{{ method() }} {{ endpoint() }}
-Body: {{ '{"items":[{"productId":42,"quantity":1}]}' }}</pre>
-							<button type="button" (click)="requestChecked.set(true)">
-								Перевірити запит
-							</button>
-							@if (requestChecked()) {
-								<p class="result" aria-live="polite">
+								<p class="request-explanation">
 									{{
-										method() === 'POST' && endpoint() === '/orders'
-											? 'Правильно: POST /orders створює замовлення. Очікуємо 201 Created за нашим контрактом.'
-											: 'Для створення замовлення потрібен POST /orders. GET читає дані; PATCH змінює наявний ресурс.'
+										requestAction() === 'order'
+											? 'POST означає створити. /orders — колекція замовлень. У body: productId — код товару, quantity — кількість.'
+											: 'GET означає прочитати. /products/42 — конкретний товар. Для цього запиту body не потрібен.'
 									}}
 								</p>
-							}
+								<button type="button" (click)="sendSampleRequest()">
+									2. Надіслати запит (симуляція)
+								</button>
+								<p class="implementation-note">
+									Змініть дію або кількість і надішліть знову. Реальні покупки не
+									виконуються.
+								</p>
+							</div>
+							<div class="exchange">
+								<section>
+									<h3>Запит застосунку</h3>
+									<pre>{{ requestPreview() }}</pre>
+								</section>
+								<section aria-live="polite">
+									<h3>Відповідь API</h3>
+									<pre>{{
+										sampleResponse() ||
+											'Натисніть «Надіслати запит», щоб побачити результат.'
+									}}</pre>
+									@if (sampleResponse()) {
+										<p class="implementation-note">
+											{{
+												requestAction() === 'order'
+													? 'Створено замовлення №101. Сума: ' +
+														1200 * quantity() +
+														' грн. total_minor — сума в копійках. Кожен запуск показує незалежний приклад.'
+													: 'Отримано дані товару. Замовлення не створено. price_minor: 120000 копійок = 1200 грн.'
+											}}
+										</p>
+									}
+								</section>
+							</div>
 						</div>
 					}
 					@case (11) {
 						<div class="demo" data-no-swipe>
 							<div class="choices">
-								<button type="button" (click)="refresh(true)">
+								<button type="button" (click)="refresh('success')">
 									Refresh успішний
 								</button>
-								<button type="button" (click)="refresh(false)">
+								<button type="button" (click)="refresh('rejected')">
 									Refresh відхилено
+								</button>
+								<button type="button" (click)="refresh('unavailable')">
+									Refresh: мережева помилка
 								</button>
 								<button
 									type="button"
@@ -81,22 +129,20 @@ Body: {{ '{"items":[{"productId":42,"quantity":1}]}' }}</pre>
 							<p class="result" aria-live="polite">{{ sessionResult() }}</p>
 						</div>
 					}
-					@case (16) {
+					@case (15) {
 						<p class="implementation-note">
-							ETag — opaque validator: повертайте значення
-							точно, разом із лапками. Зберігайте body +
-							ETag для відповідного URL і користувача. Без
+							ETag — opaque validator: повертайте значення точно, разом із лапками.
+							Зберігайте body + ETag для відповідного URL і користувача. Без
 							локального body робіть звичайний GET.
 						</p>
 						<p class="implementation-note">
-							Fresh cache за Cache-Control може уникнути навіть
-							запиту. При ручній валідації обробіть
-							304 до читання JSON. Browser HTTP cache може
-							обробляти 304 автоматично. Cross-origin API має
-							дозволити If-None-Match та expose ETag через CORS.
+							Fresh cache за Cache-Control може уникнути навіть запиту. При ручній
+							валідації обробіть 304 до читання JSON. Browser HTTP cache може
+							обробляти 304 автоматично. Cross-origin API має дозволити If-None-Match
+							та expose ETag через CORS.
 						</p>
 					}
-					@case (17) {
+					@case (16) {
 						<div class="demo etag-demo" data-no-swipe>
 							<div class="choices">
 								<button type="button" (click)="requestDocument()">
@@ -105,18 +151,14 @@ Body: {{ '{"items":[{"productId":42,"quantity":1}]}' }}</pre>
 								<button type="button" (click)="changeDocument()">
 									Змінити документ на сервері
 								</button>
-								<button type="button" (click)="resetDocument()">
-									Скинути
-								</button>
+								<button type="button" (click)="resetDocument()">Скинути</button>
 							</div>
 							<div class="version-line">
 								<span>Server: v{{ serverVersion() }}</span
 								><span
 									>Local:
 									{{
-										cachedVersion() === null
-											? 'немає'
-											: 'v' + cachedVersion()
+										cachedVersion() === null ? 'немає' : 'v' + cachedVersion()
 									}}</span
 								><span>Передано body: {{ transferred() }} разів</span>
 							</div>
@@ -131,13 +173,12 @@ Body: {{ '{"items":[{"productId":42,"quantity":1}]}' }}</pre>
 								</section>
 							</div>
 							<p>
-								Спробуйте: GET → повторний GET →
-								змінити сервер → GET. Очікувано: 200 → 304
-								→ 200.
+								Спробуйте: GET → повторний GET → змінити сервер → GET. Очікувано:
+								200 → 304 → 200.
 							</p>
 						</div>
 					}
-					@case (19) {
+					@case (18) {
 						<div class="demo" data-no-swipe>
 							<div class="choices">
 								<button
@@ -152,21 +193,31 @@ Body: {{ '{"items":[{"productId":42,"quantity":1}]}' }}</pre>
 									}}
 								</button>
 								<button type="button" (click)="saveDraft()">
-									Зберегти чернетку
+									Створити чернетку
 								</button>
-								<button type="button" (click)="sync()">
-									Синхронізувати
+								<button
+									type="button"
+									[attr.aria-pressed]="backendAvailable()"
+									(click)="backendAvailable.set(!backendAvailable())"
+								>
+									{{
+										backendAvailable()
+											? 'API працює → увімкнути 503'
+											: 'API: 503 → відновити'
+									}}
 								</button>
+								<button type="button" (click)="sync()">Синхронізувати</button>
 							</div>
 							<div class="version-line">
 								<span>{{ online() ? 'Online' : 'Offline' }}</span
+								><span>API: {{ backendAvailable() ? 'працює' : '503' }}</span
 								><span>Чернетки: {{ draftCount() }}</span
 								><span>Pending: {{ pending() }}</span>
 							</div>
 							<p class="result" aria-live="polite">{{ offlineMessage() }}</p>
 						</div>
 					}
-					@case (22) {
+					@case (21) {
 						<section class="reading">
 							<h3>Документація для поглиблення</h3>
 							<a
