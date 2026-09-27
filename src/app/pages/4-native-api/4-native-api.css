@@ -1,0 +1,132 @@
+:host {
+	--accent: #6a4c93;
+	display: block;
+}
+.native-view {
+	gap: 22px;
+}
+.chapter-dot {
+	background: var(--accent);
+}
+em {
+	color: var(--accent);
+}
+.concept-lines {
+	margin: 16px 0;
+}
+.concept-line {
+	display: flex;
+	align-items: baseline;
+	gap: 24px;
+	padding: 18px 0;
+	border-top: 1px solid var(--line);
+}
+.line-number {
+	color: var(--accent);
+	font: 600 13px monospace;
+	flex: 0 0 25px;
+}
+pre {
+	margin: 0;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	font:
+		500 clamp(17px, 1.8vw, 25px)/1.5 'Courier New',
+		monospace;
+	color: var(--ink);
+	min-width: 0;
+}
+.concept-line pre {
+	flex: 1;
+}
+.native-takeaway {
+	border-left: 4px solid var(--accent);
+	padding: 12px 22px;
+	margin-top: 12px;
+}
+.native-takeaway > span {
+	color: var(--accent);
+	font: 600 12px monospace;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+.native-takeaway p {
+	color: var(--ink);
+	margin-top: 8px;
+}
+.demo {
+	padding: 28px;
+	background: #eee8f2;
+	display: grid;
+	gap: 24px;
+	border-radius: 12px;
+}
+.choices {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+.demo button {
+	border: 1px solid var(--accent);
+	background: #fafaf6;
+	color: var(--accent);
+	border-radius: 6px;
+	padding: 13px 18px;
+	font: inherit;
+	min-height: 48px;
+}
+.demo button:hover,
+.demo button[aria-pressed='true'] {
+	background: var(--accent);
+	color: white;
+}
+.demo button:focus-visible {
+	outline: 3px solid #bd3f1b;
+	outline-offset: 4px;
+}
+.demo button:disabled {
+	opacity: 0.45;
+	cursor: default;
+}
+.version-line {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px 30px;
+	font: 600 15px/1.5 monospace;
+}
+.result {
+	font-size: 20px;
+	color: var(--ink);
+}
+.device-demo .result {
+	background: #fafaf6;
+	border-radius: 8px;
+	padding: 20px;
+}
+@media (max-width: 700px) {
+	.native-view {
+		padding: 28px 22px 108px;
+		gap: 20px;
+	}
+	h1 {
+		font-size: clamp(45px, 11vw, 72px);
+		letter-spacing: -2px;
+	}
+	h2 {
+		font-size: 34px;
+		letter-spacing: -1px;
+	}
+	.concept-line {
+		gap: 12px;
+		padding: 15px 0;
+	}
+	.demo {
+		padding: 18px;
+	}
+	.choices button {
+		flex-grow: 1;
+	}
+	.lead {
+		font-size: 19px;
+	}
+}

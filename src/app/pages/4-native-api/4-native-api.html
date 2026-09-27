@@ -1,0 +1,107 @@
+<app-presentation storageKey="presentation:view:4-native-api">
+	@for (slide of slides; track slide.id) {
+		<ng-template presentationView>
+			<article class="lecture-view native-view" [class.hero-view]="slide.id === 1">
+				<div class="eyebrow"><span class="chapter-dot"></span>{{ slide.chapter }}</div>
+				@if (slide.id === 1) {
+					<span class="topic-label">Bridge · Plugins · Permissions · Device</span>
+					<h1>Capacitor<br />та <em>Native API.</em></h1>
+				} @else {
+					<h2>{{ slide.title }}</h2>
+				}
+				<p class="lead">{{ slide.lead }}</p>
+				@if (slide.details.length) {
+					<div class="concept-lines">
+						@for (detail of slide.details; track $index) {
+							<div class="concept-line">
+								<span class="line-number">0{{ $index + 1 }}</span>
+								<pre>{{ detail }}</pre>
+							</div>
+						}
+					</div>
+				}
+				@switch (slide.id) {
+					@case (10) {
+						<div class="demo permission-demo" data-no-swipe>
+							<div class="choices">
+								<button
+									type="button"
+									[disabled]="permissionState() === 'granted' || permissionState() === 'blocked'"
+									(click)="requestCameraPermission()"
+								>
+									Camera.requestPermissions()
+								</button>
+								<button type="button" (click)="resetPermission()">Скинути</button>
+							</div>
+							<div class="version-line">
+								<span>Стан: {{ permissionState() }}</span
+								><span>Відмов поспіль: {{ denialCount() }}</span>
+							</div>
+							<p class="result" aria-live="polite">{{ permissionMessage() }}</p>
+						</div>
+					}
+					@case (13) {
+						<div class="demo geo-demo" data-no-swipe>
+							<div class="choices">
+								<button
+									type="button"
+									[attr.aria-pressed]="gpsEnabled()"
+									(click)="gpsEnabled.set(!gpsEnabled())"
+								>
+									{{ gpsEnabled() ? 'GPS: увімкнено' : 'GPS: вимкнено' }}
+								</button>
+								<button
+									type="button"
+									[attr.aria-pressed]="highAccuracy()"
+									(click)="highAccuracy.set(!highAccuracy())"
+								>
+									{{
+										highAccuracy()
+											? 'enableHighAccuracy: true'
+											: 'enableHighAccuracy: false'
+									}}
+								</button>
+								<button type="button" (click)="getPosition()">
+									Отримати позицію
+								</button>
+							</div>
+							<pre class="result" aria-live="polite">{{ positionResult() }}</pre>
+						</div>
+					}
+					@case (16) {
+						<div class="demo device-demo" data-no-swipe>
+							<div class="choices" role="group" aria-label="Платформа">
+								<button
+									type="button"
+									[attr.aria-pressed]="devicePlatform() === 'web'"
+									(click)="selectPlatform('web')"
+								>
+									Web
+								</button>
+								<button
+									type="button"
+									[attr.aria-pressed]="devicePlatform() === 'android'"
+									(click)="selectPlatform('android')"
+								>
+									Android
+								</button>
+								<button
+									type="button"
+									[attr.aria-pressed]="devicePlatform() === 'ios'"
+									(click)="selectPlatform('ios')"
+								>
+									iOS
+								</button>
+							</div>
+							<pre class="result" aria-live="polite">{{ deviceInfo() }}</pre>
+						</div>
+					}
+				}
+				<div class="native-takeaway">
+					<span>Ключова думка</span>
+					<p>{{ slide.takeaway }}</p>
+				</div>
+			</article>
+		</ng-template>
+	}
+</app-presentation>
