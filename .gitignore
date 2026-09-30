@@ -47,3 +47,12 @@ yarn-error.log*
 # System files
 .DS_Store
 Thumbs.db
+
+# Capacitor / Android
+android/app/build/
+android/build/
+android/.gradle/
+android/local.properties
+android/captures/
+android/app/release/
+android/app/debug/
