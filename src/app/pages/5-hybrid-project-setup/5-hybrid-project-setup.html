@@ -1,0 +1,46 @@
+<app-presentation storageKey="presentation:view:5-hybrid-project-setup">
+	@for (slide of slides; track slide.id) {
+		<ng-template presentationView>
+			<article class="lecture-view setup-view" [class.hero-view]="slide.id === 1">
+				<div class="eyebrow"><span class="chapter-dot"></span>{{ slide.chapter }}</div>
+				@if (slide.id === 1) {
+					<span class="topic-label">Angular CLI · Capacitor · Android · iOS</span>
+					<h1>Hybrid-проєкт<br />на <em>Angular.</em></h1>
+				} @else {
+					<h2>{{ slide.title }}</h2>
+				}
+				<p class="lead">{{ slide.lead }}</p>
+				@if (slide.details.length) {
+					<div class="concept-lines">
+						@for (detail of slide.details; track $index) {
+							<div class="concept-line">
+								<span class="line-number">0{{ $index + 1 }}</span>
+								<pre>{{ detail }}</pre>
+							</div>
+						}
+					</div>
+				}
+				@if (slide.id === 8) {
+					<div class="demo sync-demo" data-no-swipe>
+						<div class="choices" role="group" aria-label="Що ви змінили">
+							@for (change of changes; track change.label; let i = $index) {
+								<button
+									type="button"
+									[attr.aria-pressed]="selectedChange() === i"
+									(click)="selectChange(i)"
+								>
+									{{ change.label }}
+								</button>
+							}
+						</div>
+						<pre class="result" aria-live="polite">{{ requiredSteps() }}</pre>
+					</div>
+				}
+				<div class="setup-takeaway">
+					<span>Ключова думка</span>
+					<p>{{ slide.takeaway }}</p>
+				</div>
+			</article>
+		</ng-template>
+	}
+</app-presentation>
