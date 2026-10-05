@@ -195,10 +195,6 @@ export class HybridProjectSetup {
 			steps: 'npm install @capacitor/camera\nnpx cap sync\nRun (потрібен новий native build)',
 		},
 		{
-			label: 'Змінив capacitor.config.ts',
-			steps: 'npx cap sync\nRun (конфіг копіюється в native-проєкти)',
-		},
-		{
 			label: 'Додаю нову платформу',
 			steps: 'ng build\nnpx cap add android\nnpx cap open android',
 		},
