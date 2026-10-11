@@ -20,7 +20,7 @@ export class NativeApi {
 		[
 			'Архітектура',
 			'Capacitor: WebView + Native runtime',
-			'Застосунок — це один WebView, обгорнутий у нативний проєкт.',
+			'Застосунок є одним WebView, обгорнутим у нативний проєкт.',
 			[
 				'Android/iOS app → WebView → ваш web build (dist)',
 				'Native runtime реєструє plugins і обробляє їхні виклики',
@@ -31,9 +31,9 @@ export class NativeApi {
 		[
 			'Bridge',
 			'Виклик з JS у Native і назад',
-			'JS не має прямого доступу до Java/Kotlin чи Swift — потрібен місток.',
+			'JS не має прямого доступу до Java/Kotlin чи Swift, тому потрібен місток.',
 			[
-				'await Camera.getPhoto(options) — виклик у web-коді',
+				'await Camera.getPhoto(options)  // виклик у web-коді',
 				'Bridge серіалізує повідомлення → Native plugin метод',
 				'Native виконує дію (System Camera) → серіалізує результат назад',
 				'Proміс у web-коді resolve/reject із результатом',
@@ -57,7 +57,7 @@ export class NativeApi {
 			'Web-залежність недостатня: native-проєкт має отримати нативний код plugin.',
 			[
 				'npm install @capacitor/camera',
-				'npx cap sync — копіює web build і оновлює native-проєкти',
+				'npx cap sync: копіює web build і оновлює native-проєкти',
 				'iOS: pod install відбувається як частина sync',
 			],
 			'Без cap sync новий plugin не з’явиться в Android Studio / Xcode проєкті.',
@@ -67,10 +67,10 @@ export class NativeApi {
 			'@capacitor/app',
 			'Життєвий цикл застосунку, апаратна кнопка «Назад» і deep links.',
 			[
-				'App.addListener("appStateChange", ({ isActive }) => …) — foreground / background',
-				'App.addListener("backButton", () => …) — апаратна кнопка Android',
-				'App.addListener("appUrlOpen", ({ url }) => …) — відкриття за deep link',
-				'App.exitApp() — лише Android',
+				'App.addListener("appStateChange", ({ isActive }) => …)  // foreground / background',
+				'App.addListener("backButton", () => …)  // апаратна кнопка Android',
+				'App.addListener("appUrlOpen", ({ url }) => …)  // відкриття за deep link',
+				'App.exitApp()  // лише Android',
 			],
 			'Обробляйте backButton самі: інакше Android може закрити застосунок там, де очікувалась навігація назад.',
 		],
@@ -84,17 +84,17 @@ export class NativeApi {
 				'Preferences → налаштування, feature flags, дрібні рядки (без секретів)',
 				'@capacitor-community/sqlite → таблиці, offline outbox, складні запити',
 			],
-			'Preferences не шифрує вміст — токени та секрети сюди не зберігайте. SQLite потребує власної схеми й міграцій.',
+			'Preferences не шифрує вміст, тому токени та секрети сюди не зберігайте. SQLite потребує власної схеми й міграцій.',
 		],
 		[
 			'Keyboard',
 			'@capacitor/keyboard',
-			'Клавіатура змінює видиму висоту екрана — застосунок має реагувати.',
+			'Клавіатура змінює видиму висоту екрана, і застосунок має реагувати.',
 			[
 				'Keyboard.addListener("keyboardWillShow", ({ keyboardHeight }) => …)',
 				'Keyboard.addListener("keyboardWillHide", () => …)',
 				'Keyboard.setResizeMode({ mode: KeyboardResize.Body })',
-				'Keyboard.hide() — приховати клавіатуру програмно',
+				'Keyboard.hide()  // приховати клавіатуру програмно',
 			],
 			'Оберіть resize mode під layout: екрани з чатом чи формою внизу екрана найчастіше потребують Body/Ionic-режиму.',
 		],
@@ -124,7 +124,7 @@ export class NativeApi {
 			[
 				'const photo = await Camera.getPhoto({ resultType: CameraResultType.Uri, source: CameraSource.Camera })',
 				'source: Camera / Photos / Prompt (вибір користувача)',
-				'photo.webPath — можна одразу показати в <img>',
+				'photo.webPath: можна одразу показати в <img>',
 			],
 			'CameraResultType.Base64 зручний для одразу відправки, але важчий за пам’яттю на великих фото.',
 		],
@@ -135,7 +135,7 @@ export class NativeApi {
 			[
 				'const pos = await Geolocation.getCurrentPosition({ enableHighAccuracy: true })',
 				'pos.coords.latitude / longitude / accuracy',
-				'Geolocation.watchPosition(...) — стежити за рухом, не забути clearWatch',
+				'Geolocation.watchPosition(...)  // стежити за рухом, не забути clearWatch',
 			],
 			'enableHighAccuracy збільшує точність і споживання батареї. Обробляйте POSITION_UNAVAILABLE і timeout.',
 		],
@@ -153,7 +153,7 @@ export class NativeApi {
 			[
 				'await Filesystem.writeFile({ path: "draft.json", data, directory: Directory.Data })',
 				'await Filesystem.readFile({ path: "draft.json", directory: Directory.Data })',
-				'Directory.Cache — можна видалити системою; Directory.Data — для стабільних даних',
+				'Directory.Cache: можна видалити системою; Directory.Data: для стабільних даних',
 			],
 			'Той самий offline outbox із третьої лекції може зберігати вкладення саме тут.',
 		],
@@ -167,18 +167,18 @@ export class NativeApi {
 				'PushNotifications.addListener("registration", ({ value }) => … → надіслати токен на backend)',
 				'PushNotifications.addListener("pushNotificationReceived", (notification) => …)',
 			],
-			'Android використовує FCM, iOS — APNs. Зберігайте токен на backend і оновлюйте його при зміні.',
+			'Android використовує FCM, iOS використовує APNs. Зберігайте токен на backend і оновлюйте його при зміні.',
 		],
 		[
 			'Device',
 			'@capacitor/device',
 			'Інформація про пристрій допомагає з діагностикою та адаптацією UI.',
 			[
-				'const info = await Device.getInfo() — platform, osVersion, model',
-				'const id = await Device.getId() — стабільний ідентифікатор інсталяції',
-				'const battery = await Device.getBatteryInfo() — batteryLevel, isCharging',
+				'const info = await Device.getInfo()  // platform, osVersion, model',
+				'const id = await Device.getId()  // стабільний ідентифікатор інсталяції',
+				'const battery = await Device.getBatteryInfo()  // batteryLevel, isCharging',
 			],
-			'platform повертає "web" у браузері — плагіни деградують, а не падають, де це можливо.',
+			'platform повертає "web" у браузері: плагіни деградують, а не падають, де це можливо.',
 		],
 		[
 			'Platform-specific',
@@ -186,7 +186,7 @@ export class NativeApi {
 			'Capacitor.getPlatform() дозволяє гілкувати логіку без дублювання проєкту.',
 			[
 				'if (Capacitor.getPlatform() === "ios") { /* iOS-виняток */ }',
-				'Capacitor.isNativePlatform() — розрізнити native застосунок і звичайний браузер',
+				'Capacitor.isNativePlatform()  // розрізнити native застосунок і звичайний браузер',
 				'Web fallback: показати повідомлення замість недоступного native API',
 			],
 			'Перевіряйте платформу перед викликом plugin, якого немає у web-реалізації.',

@@ -22,7 +22,7 @@ export class HybridMobileApps {
       id: 2,
       chapter: 'Чотири підходи',
       title: 'Один інтерфейс. Різна архітектура.',
-      lead: 'Користувач бачить застосунок. Розробник — спосіб, у який він працює.',
+      lead: 'Користувач бачить застосунок. Розробник бачить спосіб, у який він працює.',
     },
     {
       id: 3,
@@ -70,13 +70,13 @@ export class HybridMobileApps {
       id: 10,
       chapter: 'WebView',
       title: 'Браузерний рушій. Без браузера.',
-      lead: 'WebView — компонент, що відображає web-контент усередині native-застосунку.',
+      lead: 'WebView: компонент, що відображає web-контент усередині native-застосунку.',
     },
     {
       id: 11,
       chapter: 'Середовище виконання',
       title: 'Два різні шляхи запуску.',
-      lead: 'У браузері ми відкриваємо URL. У hybrid — встановлений пакет застосунку.',
+      lead: 'У браузері ми відкриваємо URL. У hybrid відкриваємо встановлений пакет застосунку.',
     },
     {
       id: 12,
@@ -106,7 +106,7 @@ export class HybridMobileApps {
       id: 16,
       chapter: 'Frontend',
       title: 'Фреймворк обираєте ви.',
-      lead: 'Angular, React і Vue будують application layer. Capacitor — mobile layer.',
+      lead: 'Angular, React і Vue будують application layer. Capacitor будує mobile layer.',
     },
     {
       id: 17,
@@ -124,7 +124,7 @@ export class HybridMobileApps {
       id: 19,
       chapter: 'Повний шлях',
       title: 'Від коду до телефона.',
-      lead: 'Одна кодова база — два потоки доставки: web і mobile.',
+      lead: 'Одна кодова база, два потоки доставки: web і mobile.',
     },
     {
       id: 20,
@@ -176,7 +176,7 @@ export class HybridMobileApps {
   readonly selectedLayer = signal(3);
   readonly online = signal(true);
   readonly cached = signal(false);
-  readonly offlineMessage = signal('Натисніть «Завантажити» — спочатку онлайн.');
+  readonly offlineMessage = signal('Натисніть «Завантажити»: спочатку онлайн.');
   loadOfflineDemo(): void {
     if (this.online()) {
       this.cached.set(true);

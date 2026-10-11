@@ -7,7 +7,7 @@ export const routes: Routes = [
 		path: '',
 		pathMatch: 'full',
 		component: LectureList,
-		title: 'Курс «Гібридні мобільні додатки» — програма лекцій',
+		title: 'Курс «Гібридні мобільні додатки»: програма лекцій',
 		data: {
 			image: SEO_IMAGES.index,
 			description:
@@ -20,7 +20,7 @@ export const routes: Routes = [
 			import('./pages/1-hybrid-mobile-apps/1-hybrid-mobile-apps').then(
 				(module) => module.HybridMobileApps,
 			),
-		title: 'Гібридні мобільні додатки: архітектура та екосистема — Лекція 1',
+		title: 'Гібридні мобільні додатки: архітектура та екосистема | Лекція 1',
 		data: {
 			image: SEO_IMAGES.hybrid,
 			description:
@@ -33,7 +33,7 @@ export const routes: Routes = [
 			import('./pages/2-frontend-architecture/2-frontend-architecture').then(
 				(module) => module.FrontendArchitecture,
 			),
-		title: 'Архітектура frontend мобільного застосунку — Лекція 2',
+		title: 'Архітектура frontend мобільного застосунку | Лекція 2',
 		data: {
 			image: SEO_IMAGES.frontend,
 			description:
@@ -46,7 +46,7 @@ export const routes: Routes = [
 			import('./pages/3-data-api-offline/3-data-api-offline').then(
 				(module) => module.DataApiOffline,
 			),
-		title: 'Дані, API, авторизація та Offline — Лекція 3',
+		title: 'Дані, API, авторизація та Offline | Лекція 3',
 		data: {
 			image: SEO_IMAGES.data,
 			description:
@@ -57,7 +57,7 @@ export const routes: Routes = [
 		path: 'native-api',
 		loadComponent: () =>
 			import('./pages/4-native-api/4-native-api').then((module) => module.NativeApi),
-		title: 'Мобільна платформа, Capacitor та Native API — Лекція 4',
+		title: 'Мобільна платформа, Capacitor та Native API | Лекція 4',
 		data: {
 			image: SEO_IMAGES.native,
 			description:
@@ -70,7 +70,7 @@ export const routes: Routes = [
 			import('./pages/5-hybrid-project-setup/5-hybrid-project-setup').then(
 				(module) => module.HybridProjectSetup,
 			),
-		title: 'Створення Hybrid-проєкту на Angular — Лекція 5',
+		title: 'Створення Hybrid-проєкту на Angular | Лекція 5',
 		data: {
 			image: SEO_IMAGES.setup,
 			description:
@@ -83,7 +83,7 @@ export const routes: Routes = [
 			import('./pages/6-build-deployment/6-build-deployment').then(
 				(module) => module.BuildDeployment,
 			),
-		title: 'Build, Deployment та публікація застосунку — Лекція 6',
+		title: 'Build, Deployment та публікація застосунку | Лекція 6',
 		data: {
 			image: SEO_IMAGES.deployment,
 			description:

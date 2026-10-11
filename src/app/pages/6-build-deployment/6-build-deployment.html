@@ -1,0 +1,64 @@
+<app-presentation storageKey="presentation:view:6-build-deployment">
+	@for (slide of slides; track slide.id) {
+		<ng-template presentationView>
+			<article class="lecture-view deploy-view" [class.hero-view]="slide.id === 1">
+				<div class="eyebrow"><span class="chapter-dot"></span>{{ slide.chapter }}</div>
+				@if (slide.id === 1) {
+					<span class="topic-label">Environments · Signing · Review · Release</span>
+					<h1>Build та<br /><em>публікація.</em></h1>
+				} @else {
+					<h2>{{ slide.title }}</h2>
+				}
+				<p class="lead">{{ slide.lead }}</p>
+				@if (slide.details.length) {
+					<div class="concept-lines">
+						@for (detail of slide.details; track $index) {
+							<div class="concept-line">
+								<span class="line-number">0{{ $index + 1 }}</span>
+								<pre>{{ detail }}</pre>
+							</div>
+						}
+					</div>
+				}
+				@switch (slide.id) {
+					@case (2) {
+						<div class="demo deploy-demo" data-no-swipe>
+							<div class="choices" role="group" aria-label="Команда збірки">
+								@for (env of environments; track env.label; let i = $index) {
+									<button
+										type="button"
+										[attr.aria-pressed]="selectedEnvironment() === i"
+										(click)="selectedEnvironment.set(i)"
+									>
+										{{ env.label }}
+									</button>
+								}
+							</div>
+							<pre class="result" aria-live="polite">{{ environmentConfig() }}</pre>
+						</div>
+					}
+					@case (9) {
+						<div class="demo deploy-demo" data-no-swipe>
+							<div class="choices" role="group" aria-label="Ситуація для review">
+								@for (item of reviewCases; track item.label; let i = $index) {
+									<button
+										type="button"
+										[attr.aria-pressed]="selectedReviewCase() === i"
+										(click)="selectedReviewCase.set(i)"
+									>
+										{{ item.label }}
+									</button>
+								}
+							</div>
+							<pre class="result" aria-live="polite">{{ reviewVerdict() }}</pre>
+						</div>
+					}
+				}
+				<div class="deploy-takeaway">
+					<span>Ключова думка</span>
+					<p>{{ slide.takeaway }}</p>
+				</div>
+			</article>
+		</ng-template>
+	}
+</app-presentation>
