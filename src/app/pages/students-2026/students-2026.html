@@ -1,0 +1,54 @@
+<main class="students">
+  <header>
+    <h1>Студенти 2026</h1>
+    <p class="lead">
+      У кожного студента два проєкти: сайт-резюме та власний застосунок. Для кожного є репозиторій
+      і опублікований сайт.
+    </p>
+  </header>
+
+  <ol>
+    @for (student of students; track student.github) {
+      <li class="card">
+        <div class="head">
+          <div>
+            <h2>{{ student.name }}</h2>
+            <a
+              class="handle"
+              [href]="'https://github.com/' + student.github"
+              target="_blank"
+              rel="noopener"
+              >gh&#64;{{ student.github }}</a
+            >
+          </div>
+          @if (student.rating; as rating) {
+            <span class="rating" role="img" [attr.aria-label]="ratings[rating].label" [title]="ratings[rating].label">{{
+              ratings[rating].medal
+            }}</span>
+          }
+        </div>
+
+        <dl>
+          <div class="project">
+            <dt>Резюме</dt>
+            <dd>
+              <a [href]="repoUrl(student.cv)" target="_blank" rel="noopener">Репозиторій</a>
+              <a [href]="siteUrl(student.cv)" target="_blank" rel="noopener">Сайт</a>
+            </dd>
+          </div>
+          <div class="project">
+            <dt>Застосунок{{ student.app ? ': ' + student.app.title : '' }}</dt>
+            @if (student.app; as app) {
+              <dd>
+                <a [href]="repoUrl(app.repo)" target="_blank" rel="noopener">Репозиторій</a>
+                <a [href]="siteUrl(app.repo)" target="_blank" rel="noopener">Сайт</a>
+              </dd>
+            } @else {
+              <dd class="empty">Ще не створено</dd>
+            }
+          </div>
+        </dl>
+      </li>
+    }
+  </ol>
+</main>

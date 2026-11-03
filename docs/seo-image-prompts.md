@@ -49,3 +49,12 @@ Saved asset: `public/images/seo/build-deployment.png`.
 
 Title (verbatim): "Build та публікація". Illustration: An elegant release pipeline from laptop to a package cube, a signing shield with checkmark, cloud distribution and two smartphones. Strong directional arrows convey building, signing and publishing mobile applications.
 
+## students-2026
+
+Saved asset: `public/images/seo/students-2026.png` (1774×887 PNG).
+Generated with the built-in imagegen tool; the seven existing covers were preserved.
+
+Exact prompt:
+
+Use case: scientific-educational. Asset type: finished Open Graph social-sharing cover for the Ukrainian educational course Гібридні мобільні додатки. Wide landscape 2:1 composition. Professional editorial isometric illustration matching an existing series: warm off-white background #f5f4ef, charcoal #252820 device outlines, muted sage surfaces, burnt orange #bd3f1b accents, clean refined vector-like 3D forms, subtle shadows, minimal decoration. Large bold crisp Ukrainian title on left occupying 42%; illustration on right occupying 50%. Exact text only: "Студенти 2026". Illustration: a laptop displaying a simple portfolio page, two smartphones displaying student-built app interfaces, tidy project folder and repository code tiles arranged as a cohesive student project showcase. No people or personal data, no medals, no extra lettering. Keep all important elements within a centered safe area with generous 8% outer margins to survive social cropping. No course labels, no logos, no watermark, no website border.
+

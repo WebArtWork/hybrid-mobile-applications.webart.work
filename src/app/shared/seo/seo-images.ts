@@ -39,4 +39,8 @@ export const SEO_IMAGES = {
 		'build-deployment',
 		'Build та публікація: збірка, підпис і доставка застосунку на смартфони.',
 	),
+	students: image(
+		'students-2026',
+		'Студенти 2026: ноутбук із портфоліо, мобільні застосунки та репозиторії студентських проєктів.',
+	),
 } satisfies Record<string, SeoImage>;

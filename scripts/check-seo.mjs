@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 
 // Inspect the actual production HTML, as a social crawler without JavaScript would.
@@ -8,6 +8,23 @@ const sitemap = await readFile(join(output, 'sitemap.xml'), 'utf8');
 const pages = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => new URL(match[1]));
 assert(pages.length > 0, 'The sitemap must contain pages');
 const images = new Set();
+const titles = new Set();
+const routes = await readFile('src/app/app.routes.ts', 'utf8');
+const routePaths = [...routes.matchAll(/path:\s*'([^']*)'/g)]
+	.map(([, path]) => path)
+	.filter((path) => path !== '**');
+assert.equal(new Set(pages.map((url) => url.pathname.replace(/^\/+|\/+$/g, ''))).size, pages.length,
+	'Sitemap URLs must be unique');
+assert.deepEqual(
+	pages.map((url) => url.pathname.replace(/^\/+|\/+$/g, '')).sort(),
+	routePaths.sort(),
+	'The sitemap must cover every concrete application route',
+);
+const prerenderedRoutes = (await readdir(output, { recursive: true }))
+	.filter((path) => /(?:^|[\\/])index\.html$/.test(path))
+	.map((path) => path.replace(/[\\/]?index\.html$/, '').replaceAll('\\', '/'));
+assert.deepEqual(prerenderedRoutes.sort(), routePaths.sort(),
+	'Every route must have crawler-readable prerendered HTML');
 
 for (const url of pages) {
 	const route = url.pathname.replace(/^\/+|\/+$/g, '');
@@ -23,7 +40,14 @@ for (const url of pages) {
 		assert(matches[0].content, `${url.pathname}: ${key} must not be empty`);
 		return matches[0].content;
 	};
-	assert(/<title>[^<]+<\/title>/.test(html), `${url.pathname}: page title`);
+	const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
+	assert(title, `${url.pathname}: page title`);
+	assert(!titles.has(title), `${url.pathname}: title must be unique`);
+	titles.add(title);
+	assert.equal((html.match(/<h1\b/g) ?? []).length, 1, `${url.pathname}: one prerendered h1`);
+	assert(/<html\b[^>]*\blang="uk"/.test(html), `${url.pathname}: Ukrainian document language`);
+	assert(!tags.some((tag) => /^(robots|googlebot)$/i.test(tag.name ?? '') &&
+		/\b(noindex|none)\b/i.test(tag.content ?? '')), `${url.pathname}: page must be indexable`);
 	for (const key of [
 		'description',
 		'og:title',

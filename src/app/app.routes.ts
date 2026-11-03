@@ -90,5 +90,15 @@ export const routes: Routes = [
 				'Production build, environments, Firebase Hosting, Android APK/AAB та signing, Google Play Console, iOS Archive, App Store Connect і оновлення застосунку.',
 		},
 	},
+	{
+		path: 'students-2026',
+		loadComponent: () =>
+			import('./pages/students-2026/students-2026').then((module) => module.Students2026),
+		title: 'Студенти 2026 | Гібридні мобільні додатки',
+		data: {
+			image: SEO_IMAGES.students,
+			description: 'Студенти курсу 2026: сайти-резюме, власні застосунки, репозиторії та рейтинг.',
+		},
+	},
 	{ path: '**', redirectTo: '' },
 ];
