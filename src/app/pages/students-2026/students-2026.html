@@ -1,10 +1,18 @@
 <main class="students">
   <header>
     <h1>Студенти 2026</h1>
-    <p class="lead">
-      У кожного студента два проєкти: сайт-резюме та власний застосунок. Для кожного є репозиторій
-      і опублікований сайт.
-    </p>
+    <p class="lead">У кожного студента два проєкти: сайт-резюме та власний застосунок.</p>
+    <ul class="legend" aria-label="Медалі">
+      @for (item of legend; track item.title) {
+        <li>
+          <span class="medal" aria-hidden="true">{{ item.medal }}</span>
+          <span
+            ><strong>{{ item.title }}</strong
+            >{{ item.text }}</span
+          >
+        </li>
+      }
+    </ul>
   </header>
 
   <ol>
