@@ -33,9 +33,8 @@ h1 {
   margin: 0 0 24px;
   padding: 0;
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px 24px;
-  font-size: 14px;
+  gap: 8px 20px;
+  font-size: 13px;
   color: var(--muted);
 }
 .legend li {
@@ -135,6 +134,11 @@ dd a:focus-visible {
 .empty {
   font-size: 13px;
   color: var(--muted);
+}
+@media (max-width: 1240px) {
+  .legend {
+    flex-wrap: wrap;
+  }
 }
 @media (max-width: 640px) {
   .students {

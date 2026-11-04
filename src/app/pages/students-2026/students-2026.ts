@@ -8,12 +8,12 @@ import { RATINGS, repoUrl, siteUrl, STUDENTS } from './students-2026.data';
 })
 export class Students2026 {
 	readonly legend = [
-		{ medal: '○', title: 'Без медалі', text: 'CV-сайт ще не готовий або не опублікований.' },
+		{ medal: '○', title: 'Без медалі', text: 'CV-сайт не готовий.' },
 		{ medal: RATINGS.bronze.medal, title: 'Бронза', text: 'CV-сайт готовий.' },
 		{
 			medal: RATINGS.silver.medal,
 			title: 'Срібло',
-			text: 'до SPA-застосунку додано маршрутизацію.',
+			text: 'у SPA-застосунку є маршрутизація.',
 		},
 		{ medal: RATINGS.gold.medal, title: 'Золото', text: 'сторінки застосунку працюють.' },
 	];
