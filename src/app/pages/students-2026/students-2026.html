@@ -42,6 +42,16 @@
             <dd>
               <a [href]="repoUrl(student.cv)" target="_blank" rel="noopener">Репозиторій</a>
               <a [href]="siteUrl(student.cv)" target="_blank" rel="noopener">Сайт</a>
+              @if (student.cvDone) {
+                <span
+                  class="done"
+                  [class.plus]="student.cvDone === 'plus'"
+                  role="img"
+                  [attr.aria-label]="student.cvDone === 'plus' ? 'Завершено з доповненнями' : 'Завершено'"
+                  [title]="student.cvDone === 'plus' ? 'Завершено з доповненнями' : 'Завершено'"
+                  >{{ student.cvDone === 'plus' ? '✓+' : '✓' }}</span
+                >
+              }
             </dd>
           </div>
           <div class="project">

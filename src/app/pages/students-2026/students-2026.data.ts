@@ -9,6 +9,8 @@ export interface Student {
 	/** Application project, the repo name is also its domain. */
 	app?: { repo: string; title: string };
 	rating?: Rating;
+	/** CV website is completed. */
+	cvDone?: boolean | 'plus';
 }
 
 export const RATINGS: Record<Rating, { medal: string; label: string }> = {
@@ -28,13 +30,15 @@ export const STUDENTS: Student[] = [
 		name: 'Bekterev Oleksandr',
 		github: 'artosich',
 		cv: 'bekterev-oleksandr.itkamianets.com',
-		rating: 'bronze',
+		cvDone: true,
+		rating: 'silver',
 		app: { repo: 'mysport.itkamianets.com', title: 'MySport' },
 	},
 	{
 		name: 'Bodyk Maksym',
 		github: 'SakuraByte',
 		cv: 'bodyk-maksym.itkamianets.com',
+		cvDone: true,
 		rating: 'bronze',
 		app: { repo: 'obsidian-ai-hub.itkamianets.com', title: 'Obsidian AI Hub' },
 	},
@@ -42,6 +46,9 @@ export const STUDENTS: Student[] = [
 		name: 'Furman Kamila',
 		github: 'Kamila-k2',
 		cv: 'furman-kamila.itkamianets.com',
+		cvDone: true,
+		rating: 'bronze',
+		app: { repo: 'tattoo.itkamianets.com', title: 'Tattoo' },
 	},
 	{
 		name: 'Khmeliovska Daria',
@@ -59,6 +66,7 @@ export const STUDENTS: Student[] = [
 		name: 'Kushnir Daniil',
 		github: 'Kushnir-Daniil',
 		cv: 'kushnir-daniil.itkamianets.com',
+		cvDone: 'plus',
 		rating: 'silver',
 		app: { repo: 'cyber-detective.itkamianets.com', title: 'Cyber Detective' },
 	},
@@ -79,6 +87,7 @@ export const STUDENTS: Student[] = [
 		name: 'Oliinyk Kostia',
 		github: 'olinykkostia',
 		cv: 'kostia-oliinyk.itkamianets.com',
+		cvDone: true,
 		rating: 'silver',
 		app: { repo: 'spotsport.itkamianets.com', title: 'SpotSport' },
 	},
@@ -91,18 +100,21 @@ export const STUDENTS: Student[] = [
 		name: 'Riabyi Vadim',
 		github: 'Vadim1287',
 		cv: 'vadim-riabyi.itkamianets.com',
+		app: { repo: 'volley.itkamianets.com', title: 'Volley' },
 	},
 	{
 		name: 'Sherepera Oleksandra',
 		github: 'Olexandra680',
 		cv: 'oleksandra-sherepera.itkamianets.com',
-		rating: 'bronze',
+		cvDone: 'plus',
+		rating: 'silver',
 		app: { repo: 'sceneseek.itkamianets.com', title: 'SceneSeek' },
 	},
 	{
 		name: 'Skyrdenko Oleksandr',
 		github: 'Sant1agoAm1gos',
 		cv: 'oleksandr-skyrdenko.itkamianets.com',
+		cvDone: true,
 		rating: 'silver',
 		app: { repo: 'yump.itkamianets.com', title: 'YUMP' },
 	},
@@ -110,7 +122,8 @@ export const STUDENTS: Student[] = [
 		name: 'Tarasenko Kateryna',
 		github: 'kate1rina19',
 		cv: 'tarasenko-kateryna.itkamianets.com',
-		rating: 'bronze',
+		cvDone: true,
+		rating: 'silver',
 		app: { repo: 'math.itkamianets.com', title: 'Math' },
 	},
 ];

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { RATINGS, repoUrl, siteUrl, STUDENTS } from './students-2026.data';
+import { RATINGS, repoUrl, siteUrl, STUDENTS, type Student } from './students-2026.data';
+
+const FIRST = 'Olexandra680';
+const cvRank = (s: Student) => (s.github === FIRST ? -1 : s.cvDone === 'plus' ? 0 : s.cvDone ? 1 : 2);
 
 @Component({
 	selector: 'app-students-2026',
@@ -17,7 +20,8 @@ export class Students2026 {
 		},
 		{ medal: RATINGS.gold.medal, title: 'Золото', text: 'сторінки застосунку працюють.' },
 	];
-	readonly students = STUDENTS;
+	/** Sherepera Oleksandra pinned first; then CV check with plus, then plain check, then the rest; each group A–Z by name. */
+	readonly students = [...STUDENTS].sort((a, b) => cvRank(a) - cvRank(b) || a.name.localeCompare(b.name));
 	readonly ratings = RATINGS;
 	readonly repoUrl = repoUrl;
 	readonly siteUrl = siteUrl;
